@@ -8,6 +8,8 @@ Command to use Dockerized website: `docker run -it --name portfolio_website -p 8
 
 How to build Docker Image: `docker build -t <DockerHub username>/portfolio_website:latest .`
 
+Link of Dockerized website: `http://localhost:8080/`
+
 
 <h1>2. HTTP </h1>
 Used ezcv portfolio website for this part, full repo <a href="https://github.com/Jeffrey-Chung/personal_github_page" target="_blank">here</a>
