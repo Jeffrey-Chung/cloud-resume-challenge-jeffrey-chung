@@ -67,6 +67,41 @@ resource "aws_s3_object" "css_s3_object" {
   source       = "${path.module}/css/${each.value}"
 }
 
+resource "aws_s3_object" "js_s3_object" {
+  bucket       = aws_s3_bucket.jchung_s3_bucket.id
+  for_each = { for idx, file in local.js_files : idx => file }
+  key          = "/js/${each.value}"
+  source       = "${path.module}/js/${each.value}"
+}
+
+resource "aws_s3_object" "images_s3_object" {
+  bucket       = aws_s3_bucket.jchung_s3_bucket.id
+  for_each = { for idx, file in local.images_files : idx => file }
+  key          = "/images/${each.value}"
+  source       = "${path.module}/images/${each.value}"
+}
+
+resource "aws_s3_object" "sass_s3_object" {
+  bucket       = aws_s3_bucket.jchung_s3_bucket.id
+  for_each = { for idx, file in local.sass_files : idx => file }
+  key          = "/sass/${each.value}"
+  source       = "${path.module}/sass/${each.value}"
+}
+
+resource "aws_s3_object" "sections_s3_object" {
+  bucket       = aws_s3_bucket.jchung_s3_bucket.id
+  for_each = { for idx, file in local.sections_files : idx => file }
+  key          = "/sections/${each.value}"
+  source       = "${path.module}/sections/${each.value}"
+}
+
+resource "aws_s3_object" "webfonts_s3_object" {
+  bucket       = aws_s3_bucket.jchung_s3_bucket.id
+  for_each = { for idx, file in local.webfonts_files : idx => file }
+  key          = "/webfonts/${each.value}"
+  source       = "${path.module}/webfonts/${each.value}"
+}
+
 resource "aws_s3_bucket_website_configuration" "jchung_s3_bucket_website_config" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
   index_document {
