@@ -15,13 +15,19 @@ Link of Dockerized website: `http://localhost:8080/`
 
 Used ezcv portfolio website for this part, full repo <a href="https://github.com/Jeffrey-Chung/personal_github_page" target="_blank">here</a>
 
+See CSS section
+
 <h1>3. CSS </h1>
 
 Used ezcv portfolio website for this part, full repo <a href="https://github.com/Jeffrey-Chung/personal_github_page" target="_blank">here</a>
 
+Challenge(s): Learning how to get my ezcv website to be able to be deployed via Docker and S3. A solution to this is to used the built website (built from the `ezcv build` command) to be deployed. This will generate some html, css and js files to load the entire website, hence a static website generator. 
+
 <h1> 4. Static Website </h1>
 
 All required folders and files for the website will be uploaded to an S3 bucket created via Terraform (with or without GitHub Actions). 
+
+Challenge(s): Adding the different folders of my static website (i.e. css, js, etc.) to my bucket. I found <a href="https://stackoverflow.com/questions/57456167/uploading-multiple-files-in-aws-s3-from-terraform" target="_blank">this</a> from SudoHarris user to be a solution of mine and convert it to get the appropriate folders instead of my entire repository.
 
 <h1> 5. HTTPS </h1>
 
@@ -46,6 +52,8 @@ This is my repo for the cloud resume challenge.
 <h1> 14. CI/CD (backend) </h1>
 
 OIDC is setup to be able to run GitHub Actions with AWS. Terraform deployment (fmt/init/plan/apply) is also conducted in the `deploy.yml` file.
+
+Challenge(s): Configurations for the trusted policy made it difficult to assign the role via Github Actions and OIDC. Turns out that I need to assign my ARN for my identity provider to the `"Federated"` section. Also `StringEquals` must be assigned to my audience and `StringLike` to my repo.
 
 <h1> 15. CI/CD (frontend) </h1>
 
