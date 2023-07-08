@@ -1,0 +1,57 @@
+name:  Deployment - terraform apply
+
+on:
+  workflow_dispatch:
+    inputs:
+        action_type:
+            description: "Type of action you want to take (i.e. 'build' or 'destroy')"
+            required: true
+
+env:
+  AWS_REGION: ap-southeast-2
+  AWS_SESSION_NAME: tf-aws-cloud-resume-challenge-github-cicd
+  TERRAFORM_DIRECTORY: .
+  IAM_ROLE: "arn:aws:iam::663790350014:user/jchung-aws-admin"
+  TF_VERSION: "1.3.7"
+permissions: write-all # Required so that aws access token can be created
+
+jobs:
+  tf-aws-cloud-resume-challenge-deploy:
+    name: 'tf-aws-cloud-resume-challenge-deploy'
+    runs-on: ubuntu-latest
+    if: inputs.action_type == 'build'
+    steps:
+      - name: Check out this repository
+        uses: actions/checkout@v3
+
+      - name: Set AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ env.IAM_ROLE }}
+          role-session-name: ${{ env.AWS_SESSION_NAME }} # default value GitHubActions will be used if not explicitly specified
+          aws-region: ${{ env.AWS_REGION }}
+
+      - uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform init
+        id: init
+        run: terraform init
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan
+        continue-on-error: false
+      
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -auto-approve
+        continue-on-error: false
