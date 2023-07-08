@@ -45,7 +45,7 @@ resource "aws_s3_bucket_policy" "jchung_s3_bucket_policy" {
             "Effect": "Allow",
             "Principal": "*",
             "Action": ["s3:GetObject"],
-            "Resource": ["arn:aws:s3:::terror.jchung.uts-sandpit.com/*"]
+            "Resource": ["arn:aws:s3:::tf-aws-jchung-cloud-resume-challenge-bucket/*"]
         }
     ]
 }
@@ -55,9 +55,9 @@ EOF
 
 resource "aws_s3_object" "static_s3_object" {
   bucket       = aws_s3_bucket.jchung_s3_bucket.id
-  for_each     = fileset("resources", "*")
+  for_each     = fileset(".", "*")
   key          = each.value
-  source       = "resources/${each.value}"
+  source       = "${each.value}"
   content_type = "text/html"
 }
 
