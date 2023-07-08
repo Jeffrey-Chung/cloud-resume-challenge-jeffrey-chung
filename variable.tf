@@ -1,5 +1,5 @@
 variable "bucket_name" {
-  default = "terror.jchung-cloud-resume-challenge.uts-sandpit.com"
+  default = "tf-aws-jchung-cloud-resume-challenge-bucket"
 }
 
 variable "region" {

@@ -19,7 +19,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket  = ""
+    bucket  = "tf-aws-jchung-cloud-resume-challenge-state-bucket"
     key     = "terraform.tfstate"
     region  = "ap-southeast-2"
     encrypt = true
