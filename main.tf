@@ -58,7 +58,13 @@ resource "aws_s3_object" "static_s3_object" {
   for_each     = fileset(".", "*")
   key          = each.value
   source       = "${each.value}"
-  content_type = "text/html"
+}
+
+resource "aws_s3_object" "css_s3_object" {
+  bucket       = aws_s3_bucket.jchung_s3_bucket.id
+  for_each = { for idx, file in local.css_files : idx => file }
+  key          = "/css/${each.value}"
+  source       = "${path.module}/css/${each.value}"
 }
 
 resource "aws_s3_bucket_website_configuration" "jchung_s3_bucket_website_config" {
