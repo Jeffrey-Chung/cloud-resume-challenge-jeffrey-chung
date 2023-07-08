@@ -169,3 +169,5 @@ terraform.rc
 
 # Other
 .vscode/
+
+.terraform.lock.hcl
