@@ -12,12 +12,16 @@ Link of Dockerized website: `http://localhost:8080/`
 
 
 <h1>2. HTTP </h1>
+
 Used ezcv portfolio website for this part, full repo <a href="https://github.com/Jeffrey-Chung/personal_github_page" target="_blank">here</a>
 
 <h1>3. CSS </h1>
+
 Used ezcv portfolio website for this part, full repo <a href="https://github.com/Jeffrey-Chung/personal_github_page" target="_blank">here</a>
 
 <h1> 4. Static Website </h1>
+
+All required folders and files for the website will be uploaded to an S3 bucket created via Terraform (with or without GitHub Actions). 
 
 <h1> 5. HTTPS </h1>
 
@@ -36,9 +40,12 @@ Used ezcv portfolio website for this part, full repo <a href="https://github.com
 <h1> 12. Infrastructure as Code </h1>
 
 <h1> 13. Version Control </h1>
+
 This is my repo for the cloud resume challenge.
 
 <h1> 14. CI/CD (backend) </h1>
+
+OIDC is setup to be able to run GitHub Actions with AWS. Terraform deployment (fmt/init/plan/apply) is also conducted in the `deploy.yml` file.
 
 <h1> 15. CI/CD (frontend) </h1>
 
