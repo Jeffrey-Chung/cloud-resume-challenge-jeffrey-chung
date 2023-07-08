@@ -1,11 +1,11 @@
 # Configure the AWS Provider
 provider "aws" {
   region = "ap-southeast-2"
-  assume_role {
-    role_arn     = "arn:aws:iam::663790350014:role/GitHubAction-AssumeRoleWithAction"
-    session_name = "tf-aws-jchung-cloud-resume-challenge"
-    external_id  = "Jeffrey-Chung@github"
-  }
+  #assume_role {
+  #  role_arn     = "arn:aws:iam::663790350014:role/GitHubAction-AssumeRoleWithAction"
+  #  session_name = "tf-aws-jchung-cloud-resume-challenge"
+  #  external_id  = "Jeffrey-Chung@github"
+  #}
 }
 
 terraform {
