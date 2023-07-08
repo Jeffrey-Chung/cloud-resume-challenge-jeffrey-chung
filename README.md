@@ -15,7 +15,7 @@ Link of Dockerized website: `http://localhost:8080/`
 
 Used ezcv portfolio website for this part, full repo <a href="https://github.com/Jeffrey-Chung/personal_github_page" target="_blank">here</a>
 
-See CSS section
+Challenge(s): See CSS section
 
 <h1>3. CSS </h1>
 
