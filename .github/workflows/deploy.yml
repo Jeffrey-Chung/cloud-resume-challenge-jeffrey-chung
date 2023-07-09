@@ -54,3 +54,43 @@ jobs:
         id: apply
         run: terraform apply -auto-approve
         continue-on-error: false
+  
+  tf-aws-cloud-resume-challenge-destroy:
+    name: 'tf-aws-cloud-resume-challenge-destroy'
+    runs-on: ubuntu-latest
+    if: inputs.action_type == 'destroy'
+    steps:
+      - name: Check out this repository
+        uses: actions/checkout@v3
+
+      - name: Set AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ env.IAM_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform init
+        id: init
+        run: terraform init
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan
+        continue-on-error: false
+      
+      - name: Terraform Destroy
+        id: destroy
+        run: terraform destroy -auto-approve
+        continue-on-error: false
+
