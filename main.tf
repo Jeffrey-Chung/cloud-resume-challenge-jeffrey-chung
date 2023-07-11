@@ -51,15 +51,15 @@ resource "aws_s3_bucket_acl" "jchung_s3_bucket_acl" {
     aws_s3_bucket_public_access_block.jchung_s3_bucket_bucket_public_access_block,
   ]
   bucket = aws_s3_bucket.jchung_s3_bucket.id
-  acl    = "private-read"
+  acl    = "private"
 }
 
-resource "aws_s3_bucket_acl" "jchung_log_bucket_acl-access" {
+resource "aws_s3_bucket_acl" "jchung_log_bucket_acl" {
   bucket = aws_s3_bucket.jchung_logging_bucket.id
   acl    = "log-delivery-write"
 }
 
-resource "aws_s3_bucket_acl" "jchung_log_bucket_acl" {
+resource "aws_s3_bucket_logging" "jchung_log_bucket_acl" {
   bucket        = aws_s3_bucket.jchung_logging_bucket.id
   target_bucket = aws_s3_bucket.jchung_logging_bucket.id
   target_prefix = "log/"
