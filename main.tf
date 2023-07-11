@@ -46,10 +46,6 @@ resource "aws_s3_bucket_public_access_block" "jchung_s3_bucket_bucket_public_acc
 }
 
 resource "aws_s3_bucket_acl" "jchung_s3_bucket_acl" {
-  depends_on = [
-    aws_s3_bucket_ownership_controls.jchung_s3_bucket_ownership_controls,
-    aws_s3_bucket_public_access_block.jchung_s3_bucket_bucket_public_access_block,
-  ]
   bucket = aws_s3_bucket.jchung_s3_bucket.id
   acl    = "private"
 }
@@ -101,10 +97,6 @@ resource "aws_s3_object" "images_s3_object" {
 
 resource "aws_s3_object" "sass_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
-  depends_on = [
-    aws_s3_bucket_ownership_controls.jchung_s3_bucket_ownership_controls,
-    aws_s3_bucket_public_access_block.jchung_s3_bucket_bucket_public_access_block,
-  ]
   for_each = { for idx, file in local.sass_files : idx => file }
   key      = "/sass/${each.value}"
   source   = "${path.module}/sass/${each.value}"
