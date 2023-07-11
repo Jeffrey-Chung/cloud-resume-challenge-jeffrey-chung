@@ -51,11 +51,11 @@ This is my repo for the cloud resume challenge.
 
 <h1> 14. CI/CD (backend) </h1>
 
+<h1> 15. CI/CD (frontend) </h1>
+
 OIDC is setup to be able to run GitHub Actions with AWS. Terraform deployment (fmt/init/plan/apply) is also conducted in the `deploy.yml` file.
 
 Challenge(s): Configurations for the trusted policy made it difficult to assign the role via Github Actions and OIDC. Turns out that I need to assign my ARN for my identity provider to the `"Federated"` section. Also `StringEquals` must be assigned to my audience and `StringLike` to my repo.
-
-<h1> 15. CI/CD (frontend) </h1>
 
 <h1> 16. Blog Post </h1>
 
