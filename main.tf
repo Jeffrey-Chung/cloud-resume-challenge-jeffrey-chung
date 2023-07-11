@@ -54,7 +54,7 @@ resource "aws_s3_bucket_acl" "jchung_s3_bucket_acl" {
   acl    = "private-read"
 }
 
-resource "aws_s3_bucket_acl" "jchung_log_bucket_acl" {
+resource "aws_s3_bucket_acl" "jchung_log_bucket_acl-access" {
   bucket = aws_s3_bucket.jchung_logging_bucket.id
   acl    = "log-delivery-write"
 }
