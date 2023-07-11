@@ -30,6 +30,28 @@ resource "aws_s3_bucket_acl" "jchung_s3_bucket_acl" {
   acl    = "public-read"
 }
 
+resource "aws_s3_bucket_policy" "jchung_s3_bucket_policy" {
+  depends_on = [
+    aws_s3_bucket_ownership_controls.jchung_s3_bucket_ownership_controls,
+    aws_s3_bucket_public_access_block.jchung_s3_bucket_bucket_public_access_block,
+  ]
+  bucket = aws_s3_bucket.jchung_s3_bucket.id
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::tf-aws-jchung-cloud-resume-site-bucket/*"
+        }
+    ]
+}
+EOF
+}
+
 
 resource "aws_s3_object" "html_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
@@ -62,6 +84,7 @@ resource "aws_s3_object" "css_s3_object" {
   for_each = { for idx, file in local.css_files : idx => file }
   key      = "/css/${each.value}"
   source   = "${path.module}/css/${each.value}"
+  content_type = "text/css"
 }
 
 resource "aws_s3_object" "js_s3_object" {
@@ -73,6 +96,7 @@ resource "aws_s3_object" "js_s3_object" {
   for_each = { for idx, file in local.js_files : idx => file }
   key      = "/js/${each.value}"
   source   = "${path.module}/js/${each.value}"
+  content_type = "text/javascript"
 }
 
 resource "aws_s3_object" "images_s3_object" {
@@ -84,6 +108,7 @@ resource "aws_s3_object" "images_s3_object" {
   for_each = { for idx, file in local.images_files : idx => file }
   key      = "/images/${each.value}"
   source   = "${path.module}/images/${each.value}"
+  content_type = "image/png"
 }
 
 resource "aws_s3_object" "sass_s3_object" {
