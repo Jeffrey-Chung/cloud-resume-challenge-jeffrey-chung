@@ -1,5 +1,9 @@
 variable "bucket_name" {
-  default = "tf-aws-jchung-cloud-resume-challenge-bucket"
+  default = "tf-aws-jchung-cloud-resume-site-bucket"
+}
+
+variable "logging_bucket_name" {
+  default = "tf-aws-jchung-cloud-resume-logging-bucket"
 }
 
 variable "region" {
