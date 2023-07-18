@@ -6,6 +6,31 @@ resource "aws_s3_bucket" "jchung_s3_bucket" {
   bucket = var.bucket_name
 }
 
+resource "aws_s3_bucket_server_side_encryption_configuration" "jchung_s3_bucket" {
+  bucket = aws_s3_bucket.jchung_s3_bucket.id
+  rule {
+    bucket_key_enabled = true
+
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
+#tfsec:ignore:aws-s3-enable-bucket-logging
+#tfsec:ignore:encryption-customer-key
+resource "aws_s3_bucket" "jchung_logging_bucket" {
+  bucket = var.logging_bucket_name
+}
+
+resource "aws_s3_bucket_versioning" "jchung_logging_bucket" {
+  bucket = aws_s3_bucket.jchung_logging_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket_ownership_controls" "jchung_s3_bucket_ownership_controls" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
   rule {
@@ -27,7 +52,18 @@ resource "aws_s3_bucket_acl" "jchung_s3_bucket_acl" {
     aws_s3_bucket_public_access_block.jchung_s3_bucket_bucket_public_access_block,
   ]
   bucket = aws_s3_bucket.jchung_s3_bucket.id
-  acl    = "public-read"
+  acl    = "private-read"
+}
+
+resource "aws_s3_bucket_acl" "jchung_log_bucket_acl" {
+  bucket = aws_s3_bucket.jchung_logging_bucket.id
+  acl    = "log-delivery-write"
+}
+
+resource "aws_s3_bucket_acl" "jchung_log_bucket_acl" {
+  bucket        = aws_s3_bucket.jchung_logging_bucket.id
+  target_bucket = aws_s3_bucket.jchung_logging_bucket.id
+  target_prefix = "log/"
 }
 
 resource "aws_s3_bucket_policy" "jchung_s3_bucket_policy" {
