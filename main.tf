@@ -1,7 +1,6 @@
 # Resources will go here
 
 #tfsec:ignore:aws-s3-enable-versioning
-#tfsec:ignore:encryption-customer-key
 resource "aws_s3_bucket" "jchung_s3_bucket" {
   bucket = var.bucket_name
 
@@ -10,6 +9,7 @@ resource "aws_s3_bucket" "jchung_s3_bucket" {
   }
 }
 
+#tfsec:ignore:encryption-customer-key
 resource "aws_s3_bucket_server_side_encryption_configuration" "jchung_s3_server_side_encryption" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
 
@@ -67,7 +67,6 @@ EOF
 }
 
 #tfsec:ignore:aws-s3-enable-bucket-logging
-#tfsec:ignore:encryption-customer-key
 resource "aws_s3_bucket" "jchung_logging_bucket" {
   bucket = var.logging_bucket_name
 
@@ -76,6 +75,7 @@ resource "aws_s3_bucket" "jchung_logging_bucket" {
   }
 }
 
+#tfsec:ignore:encryption-customer-key
 resource "aws_s3_bucket_server_side_encryption_configuration" "jchung_logging_server_side_encryption" {
   bucket = aws_s3_bucket.jchung_logging_bucket.id
 
