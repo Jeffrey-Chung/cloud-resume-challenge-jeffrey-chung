@@ -4,7 +4,23 @@
 #tfsec:ignore:encryption-customer-key
 resource "aws_s3_bucket" "jchung_s3_bucket" {
   bucket = var.bucket_name
+
+  logging {
+    target_bucket = aws_s3_bucket.jchung_logging_bucket.id
+  }
 }
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "jchung_s3_server_side_encryption" {
+  bucket = aws_s3_bucket.jchung_s3_bucket.id
+
+  rule {
+    bucket_key_enabled = true
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
 resource "aws_s3_bucket_ownership_controls" "jchung_s3_bucket_ownership_controls" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
   rule {
@@ -49,6 +65,17 @@ resource "aws_s3_bucket_policy" "jchung_s3_bucket_policy" {
 }
 EOF
 }
+
+#tfsec:ignore:aws-s3-enable-bucket-logging
+#tfsec:ignore:encryption-customer-key
+resource "aws_s3_bucket" "jchung_logging_bucket" {
+  bucket = var.logging_bucket_name
+
+  versioning {
+    enabled = true
+  }
+}
+
 resource "aws_s3_object" "html_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
   depends_on = [
@@ -75,9 +102,9 @@ resource "aws_s3_object" "css_s3_object" {
     aws_s3_bucket_ownership_controls.jchung_s3_bucket_ownership_controls,
     aws_s3_bucket_public_access_block.jchung_s3_bucket_bucket_public_access_block,
   ]
-  for_each = { for idx, file in local.css_files : idx => file }
-  key      = "/css/${each.value}"
-  source   = "${path.module}/css/${each.value}"
+  for_each     = { for idx, file in local.css_files : idx => file }
+  key          = "/css/${each.value}"
+  source       = "${path.module}/css/${each.value}"
   content_type = "text/css"
 }
 resource "aws_s3_object" "js_s3_object" {
@@ -86,9 +113,9 @@ resource "aws_s3_object" "js_s3_object" {
     aws_s3_bucket_ownership_controls.jchung_s3_bucket_ownership_controls,
     aws_s3_bucket_public_access_block.jchung_s3_bucket_bucket_public_access_block,
   ]
-  for_each = { for idx, file in local.js_files : idx => file }
-  key      = "/js/${each.value}"
-  source   = "${path.module}/js/${each.value}"
+  for_each     = { for idx, file in local.js_files : idx => file }
+  key          = "/js/${each.value}"
+  source       = "${path.module}/js/${each.value}"
   content_type = "text/javascript"
 }
 resource "aws_s3_object" "images_s3_object" {
@@ -97,9 +124,9 @@ resource "aws_s3_object" "images_s3_object" {
     aws_s3_bucket_ownership_controls.jchung_s3_bucket_ownership_controls,
     aws_s3_bucket_public_access_block.jchung_s3_bucket_bucket_public_access_block,
   ]
-  for_each = { for idx, file in local.images_files : idx => file }
-  key      = "/images/${each.value}"
-  source   = "${path.module}/images/${each.value}"
+  for_each     = { for idx, file in local.images_files : idx => file }
+  key          = "/images/${each.value}"
+  source       = "${path.module}/images/${each.value}"
   content_type = "image/png"
 }
 resource "aws_s3_object" "sass_s3_object" {
