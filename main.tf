@@ -87,6 +87,14 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "jchung_logging_se
   }
 }
 
+resource "aws_s3_bucket_public_access_block" "jchung_logging_bucket_bucket_public_access_block" {
+  bucket                  = aws_s3_bucket.jchung_logging_bucket.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
 resource "aws_s3_object" "html_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
   depends_on = [
