@@ -23,7 +23,7 @@ terraform {
     key     = "terraform.tfstate"
     region  = "ap-southeast-2"
     encrypt = true
-    #dynamodb_table = "terraform-state-lock"
+    dynamodb_table = "terraform-state-lock"
     #role_arn = "arn:aws:iam::663790350014:role/GitHubAction-AssumeRoleWithAction"
   }
 }
