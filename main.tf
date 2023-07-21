@@ -76,6 +76,17 @@ resource "aws_s3_bucket" "jchung_logging_bucket" {
   }
 }
 
+resource "aws_s3_bucket_server_side_encryption_configuration" "jchung_logging_server_side_encryption" {
+  bucket = aws_s3_bucket.jchung_logging_bucket.id
+
+  rule {
+    bucket_key_enabled = true
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
 resource "aws_s3_object" "html_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
   depends_on = [
