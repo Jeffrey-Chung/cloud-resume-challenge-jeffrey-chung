@@ -3,10 +3,13 @@
 #tfsec:ignore:aws-s3-enable-versioning
 resource "aws_s3_bucket" "jchung_s3_bucket" {
   bucket = var.bucket_name
+}
 
-  logging {
-    target_bucket = aws_s3_bucket.jchung_logging_bucket.id
-  }
+resource "aws_s3_bucket_logging" "jchung_s3_logging" {
+  bucket = aws_s3_bucket.jchung_s3_bucket.id
+
+  target_bucket = aws_s3_bucket.jchung_logging_bucket.id
+  target_prefix = "log/"
 }
 
 #tfsec:ignore:encryption-customer-key
@@ -28,10 +31,12 @@ resource "aws_s3_bucket_ownership_controls" "jchung_s3_bucket_ownership_controls
   }
 }
 
+# Ignore erroer for blocking public policy so that I can add a policy to the site bucket
+#tfsec:ignore:block-public-policy
 resource "aws_s3_bucket_public_access_block" "jchung_s3_bucket_bucket_public_access_block" {
   bucket                  = aws_s3_bucket.jchung_s3_bucket.id
   block_public_acls       = true
-  block_public_policy     = true
+  block_public_policy     = false
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
@@ -42,8 +47,9 @@ resource "aws_s3_bucket_acl" "jchung_s3_bucket_acl" {
     aws_s3_bucket_public_access_block.jchung_s3_bucket_bucket_public_access_block,
   ]
   bucket = aws_s3_bucket.jchung_s3_bucket.id
-  acl    = "public-read"
+  acl    = "private"
 }
+
 resource "aws_s3_bucket_policy" "jchung_s3_bucket_policy" {
   depends_on = [
     aws_s3_bucket_ownership_controls.jchung_s3_bucket_ownership_controls,
@@ -69,9 +75,12 @@ EOF
 #tfsec:ignore:aws-s3-enable-bucket-logging
 resource "aws_s3_bucket" "jchung_logging_bucket" {
   bucket = var.logging_bucket_name
+}
 
-  versioning {
-    enabled = true
+resource "aws_s3_bucket_versioning" "jchung_logging_bucket_versioning" {
+  bucket = aws_s3_bucket.jchung_logging_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
