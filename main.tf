@@ -31,7 +31,6 @@ resource "aws_s3_bucket_ownership_controls" "jchung_s3_bucket_ownership_controls
   }
 }
 
-# Ignore error for blocking public policy so that I can add a policy to the site bucket
 # no public buckets will be un-ignored for cloudfront
 #tfsec:ignore:no-public-buckets
 resource "aws_s3_bucket_public_access_block" "jchung_s3_bucket_bucket_public_access_block" {
