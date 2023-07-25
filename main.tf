@@ -115,6 +115,7 @@ resource "aws_s3_object" "html_s3_object" {
   key          = "index.html"
   source       = "${path.module}/index.html"
   content_type = "text/html"
+  etag = filemd5("${path.module}/index.html")
 }
 resource "aws_s3_object" "error_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
@@ -125,6 +126,7 @@ resource "aws_s3_object" "error_s3_object" {
   key          = "error.html"
   source       = "${path.module}/error.html"
   content_type = "text/html"
+  etag = filemd5("${path.module}/error.html")
 }
 resource "aws_s3_object" "css_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
@@ -136,6 +138,7 @@ resource "aws_s3_object" "css_s3_object" {
   key          = "/css/${each.value}"
   source       = "${path.module}/css/${each.value}"
   content_type = "text/css"
+  etag = filemd5("${path.module}/css/${each.value}")
 }
 resource "aws_s3_object" "js_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
@@ -147,6 +150,7 @@ resource "aws_s3_object" "js_s3_object" {
   key          = "/js/${each.value}"
   source       = "${path.module}/js/${each.value}"
   content_type = "text/javascript"
+  etag = filemd5("${path.module}/js/${each.value}")
 }
 resource "aws_s3_object" "images_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
@@ -158,6 +162,7 @@ resource "aws_s3_object" "images_s3_object" {
   key          = "/images/${each.value}"
   source       = "${path.module}/images/${each.value}"
   content_type = "image/png"
+  etag = filemd5("${path.module}/images/${each.value}")
 }
 resource "aws_s3_object" "sass_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
@@ -168,6 +173,7 @@ resource "aws_s3_object" "sass_s3_object" {
   for_each = { for idx, file in local.sass_files : idx => file }
   key      = "/sass/${each.value}"
   source   = "${path.module}/sass/${each.value}"
+  etag = filemd5("${path.module}/sass/${each.value}")
 }
 resource "aws_s3_object" "sections_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
@@ -178,6 +184,7 @@ resource "aws_s3_object" "sections_s3_object" {
   for_each = { for idx, file in local.sections_files : idx => file }
   key      = "/sections/${each.value}"
   source   = "${path.module}/sections/${each.value}"
+  etag = filemd5("${path.module}/sections/${each.value}")
 }
 resource "aws_s3_object" "webfonts_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
@@ -188,6 +195,7 @@ resource "aws_s3_object" "webfonts_s3_object" {
   for_each = { for idx, file in local.webfonts_files : idx => file }
   key      = "/webfonts/${each.value}"
   source   = "${path.module}/webfonts/${each.value}"
+  etag = filemd5("${path.module}/webfonts/${each.value}")
 }
 resource "aws_s3_bucket_website_configuration" "jchung_s3_bucket_website_config" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
