@@ -21,4 +21,4 @@ jobs:
           fail_on_error: true
           flags: -tee
           tfsec_flags: ""
-          minimum_severity: HIGH
+
