@@ -19,10 +19,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket  = "tf-aws-jchung-cloud-resume-challenge-state-bucket"
-    key     = "terraform.tfstate"
-    region  = "ap-southeast-2"
-    encrypt = true
+    bucket         = "tf-aws-jchung-cloud-resume-challenge-state-bucket"
+    key            = "terraform.tfstate"
+    region         = "ap-southeast-2"
+    encrypt        = true
     dynamodb_table = "terraform-state-lock"
     #role_arn = "arn:aws:iam::663790350014:role/GitHubAction-AssumeRoleWithAction"
   }
