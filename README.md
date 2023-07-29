@@ -10,6 +10,17 @@ How to build Docker Image: `docker build -t <DockerHub username>/portfolio_websi
 
 Link of Dockerized website: `http://localhost:8080/`
 
+<h1> Docker Compose (extra) </h1>
+
+Also implemented Docker Compose to alternatively and locally host sites with Apache and Nginx servers.
+
+Command to spin up containers: `docker-compose up -d`
+
+Link of website on Apache server: `http://localhost:8082/`
+
+Link of website on Nginx server: `http://localhost:8081/`
+
+Command to disable containers: `docker-compose down`
 
 <h1>2. HTTP </h1>
 
