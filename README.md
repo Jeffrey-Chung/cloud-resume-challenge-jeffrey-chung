@@ -45,6 +45,8 @@ Challenge(s): Adding the different folders of my static website (i.e. css, js, e
 
 <h1> 12. Infrastructure as Code </h1>
 
+Terraform is used as the IaC tool for this challenge. tfsec is also implemented to make sure that code quality is on par with best practices per every pull request.
+
 <h1> 13. Version Control </h1>
 
 This is my repo for the cloud resume challenge.
