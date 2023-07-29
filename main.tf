@@ -182,18 +182,14 @@ resource "aws_s3_bucket_website_configuration" "jchung_s3_bucket_website_config"
   }
 }
 
-locals {
-  s3_origin_id = "tf-aws-jchung-cloud-resume-site-bucket.s3.ap-southeast-2.amazonaws.com"
-}
-
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
-  comment = local.s3_origin_id
+  comment = aws_s3_bucket.jchung_s3_bucket.bucket_regional_domain_name
 }
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name = aws_s3_bucket.jchung_s3_bucket.bucket_regional_domain_name
-    origin_id   = local.s3_origin_id
+    origin_id   = aws_s3_bucket.jchung_s3_bucket.bucket_regional_domain_name
 
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
@@ -209,7 +205,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     cache_policy_id  = "658327ea-f89d-4fab-a63d-7e88639e58f6"
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = local.s3_origin_id
+    target_origin_id = aws_s3_bucket.jchung_s3_bucket.bucket_regional_domain_name
 
     viewer_protocol_policy = "allow-all"
     min_ttl                = 0
