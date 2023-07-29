@@ -10,6 +10,17 @@ How to build Docker Image: `docker build -t <DockerHub username>/portfolio_websi
 
 Link of Dockerized website: `http://localhost:8080/`
 
+<h1> Docker Compose (extra) </h1>
+
+Also implemented Docker Compose to alternatively and locally host sites with Apache and Nginx servers.
+
+Command to spin up containers: `docker-compose up -d`
+
+Link of website on Apache server: `http://localhost:8082/`
+
+Link of website on Nginx server: `http://localhost:8081/`
+
+Command to disable containers: `docker-compose down`
 
 <h1>2. HTTP </h1>
 
@@ -44,6 +55,8 @@ Challenge(s): Adding the different folders of my static website (i.e. css, js, e
 <h1> 11. Tests </h1>
 
 <h1> 12. Infrastructure as Code </h1>
+
+Terraform is used as the IaC tool for this challenge. tfsec is also implemented to make sure that code quality is on par with best practices per every pull request.
 
 <h1> 13. Version Control </h1>
 
