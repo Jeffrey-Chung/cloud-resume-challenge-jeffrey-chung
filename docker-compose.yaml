@@ -8,6 +8,11 @@ services:
     - '8082:80'
     volumes:
     - '.:/usr/local/apache2/htdocs'
+    healthcheck: 
+      test: [ "CMD", "curl", "--fail", "http://localhost" ]
+      interval: "30s"
+      timeout: "5s"
+      retries: 3
 # hosting with nginx server
   client:
       image: nginx
@@ -16,3 +21,8 @@ services:
           - 8081:80
       volumes:
           - .:/usr/share/nginx/html
+      healthcheck: 
+        test: [ "CMD", "curl", "--fail", "http://localhost" ]
+        interval: "30s"
+        timeout: "5s"
+        retries: 3
