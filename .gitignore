@@ -171,3 +171,8 @@ terraform.rc
 .vscode/
 
 .terraform.lock.hcl
+
+#folders generated from docker compose
+apache_site/
+
+nginx_site/

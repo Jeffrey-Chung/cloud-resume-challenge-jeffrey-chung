@@ -7,7 +7,7 @@ services:
     ports:
     - '8082:80'
     volumes:
-    - '.:/usr/local/apache2/htdocs'
+    - './apache-site:/usr/local/apache2/htdocs'
     healthcheck: 
       test: [ "CMD", "curl", "--fail", "http://localhost" ]
       interval: "30s"
@@ -20,7 +20,7 @@ services:
       ports:
           - 8081:80
       volumes:
-          - .:/usr/share/nginx/html
+          - ./nginx-site:/usr/share/nginx/html
       healthcheck: 
         test: [ "CMD", "curl", "--fail", "http://localhost" ]
         interval: "30s"
