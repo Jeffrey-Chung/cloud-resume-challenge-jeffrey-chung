@@ -95,6 +95,7 @@ resource "aws_s3_bucket_acl" "jchung_log_bucket_acl" {
   ]
   bucket = aws_s3_bucket.jchung_logging_bucket.id
   acl    = "log-delivery-write"
+  force_destroy = true
 }
 
 resource "aws_s3_object" "html_s3_object" {
@@ -203,7 +204,9 @@ resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
 }
 
 # no need to enable security encryption (WAF) to host this static website since no sensitive information is in the site
+# Using default cloudfront certificate for now, may change later in development
 #tfsec:ignore:enable-waf
+#tfsec:ignore:use-secure-tls-policy
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name = aws_s3_bucket.jchung_s3_bucket.bucket_regional_domain_name
