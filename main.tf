@@ -73,9 +73,11 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "jchung_logging_se
   }
 }
 
-resource "aws_s3_bucket_acl" "jchung_log_bucket_acl" {
+resource "aws_s3_bucket_ownership_controls" "jchung_log_bucket_ownership_controls" {
   bucket = aws_s3_bucket.jchung_logging_bucket.id
-  acl    = "log-delivery-write"
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "jchung_logging_bucket_bucket_public_access_block" {
@@ -84,6 +86,15 @@ resource "aws_s3_bucket_public_access_block" "jchung_logging_bucket_bucket_publi
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_acl" "jchung_log_bucket_acl" {
+  depends_on = [
+    aws_s3_bucket_ownership_controls.jchung_log_bucket_ownership_controls,
+    aws_s3_bucket_public_access_block.jchung_logging_bucket_bucket_public_access_block,
+  ]
+  bucket = aws_s3_bucket.jchung_logging_bucket.id
+  acl    = "log-delivery-write"
 }
 
 resource "aws_s3_object" "html_s3_object" {
@@ -210,8 +221,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   logging_config {
     include_cookies = false
-    bucket = aws_s3_bucket.jchung_logging_bucket.bucket_regional_domain_name
-    prefix = "cloud-resume-cf-logs"
+    bucket          = aws_s3_bucket.jchung_logging_bucket.bucket_regional_domain_name
+    prefix          = "cloud-resume-cf-logs"
   }
 
   default_cache_behavior {
