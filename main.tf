@@ -52,6 +52,7 @@ resource "aws_s3_bucket_acl" "jchung_s3_bucket_acl" {
 #tfsec:ignore:aws-s3-enable-bucket-logging
 resource "aws_s3_bucket" "jchung_logging_bucket" {
   bucket = var.logging_bucket_name
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_versioning" "jchung_logging_bucket_versioning" {
@@ -95,7 +96,6 @@ resource "aws_s3_bucket_acl" "jchung_log_bucket_acl" {
   ]
   bucket = aws_s3_bucket.jchung_logging_bucket.id
   acl    = "log-delivery-write"
-  force_destroy = true
 }
 
 resource "aws_s3_object" "html_s3_object" {
