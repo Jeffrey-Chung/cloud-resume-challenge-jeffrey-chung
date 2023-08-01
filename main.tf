@@ -186,6 +186,8 @@ resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
   comment = aws_s3_bucket.jchung_s3_bucket.bucket_regional_domain_name
 }
 
+# no need to enable security encryption (WAF) to host this static website since no sensitive information is in the site
+#tfsec:ignore:enable-waf
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name = aws_s3_bucket.jchung_s3_bucket.bucket_regional_domain_name
