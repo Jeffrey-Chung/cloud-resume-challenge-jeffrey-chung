@@ -204,7 +204,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   default_root_object = "index.html"
 
   logging_config {
-    includes_cookies = false
+    include_cookies = false
     bucket = aws_s3_bucket.jchung_logging_bucket.bucket_regional_domain_name
     prefix = "cloud-resume-cf-logs"
   }
