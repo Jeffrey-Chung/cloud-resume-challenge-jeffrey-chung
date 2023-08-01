@@ -73,6 +73,11 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "jchung_logging_se
   }
 }
 
+resource "aws_s3_bucket_acl" "jchung_log_bucket_acl" {
+  bucket = aws_s3_bucket.jchung_logging_bucket.id
+  acl    = "log-delivery-write"
+}
+
 resource "aws_s3_bucket_public_access_block" "jchung_logging_bucket_bucket_public_access_block" {
   bucket                  = aws_s3_bucket.jchung_logging_bucket.id
   block_public_acls       = true
