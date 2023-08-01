@@ -186,6 +186,8 @@ resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
   comment = aws_s3_bucket.jchung_s3_bucket.bucket_regional_domain_name
 }
 
+# no need to enable security encryption (WAF) to host this static website since no sensitive information is in the site
+#tfsec:ignore:enable-waf
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name = aws_s3_bucket.jchung_s3_bucket.bucket_regional_domain_name
@@ -201,13 +203,19 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   comment             = "jchung-cloud-resume-challenge"
   default_root_object = "index.html"
 
+  logging_config {
+    includes_cookies = false
+    bucket = aws_s3_bucket.jchung_logging_bucket.domain_name
+    prefix = "cloud-resume-cf-logs"
+  }
+
   default_cache_behavior {
     cache_policy_id  = "658327ea-f89d-4fab-a63d-7e88639e58f6"
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = aws_s3_bucket.jchung_s3_bucket.bucket_regional_domain_name
 
-    viewer_protocol_policy = "allow-all"
+    viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
