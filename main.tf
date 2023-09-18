@@ -290,7 +290,7 @@ resource "aws_dynamodb_table_item" "dynamodb_items" {
   item = <<ITEM
 {
   "count_id": {"S": "1"},
-  "count_num": {"N": "1"},
+  "count_num": {"N": "1"}
 }
 ITEM
 }
