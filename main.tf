@@ -291,6 +291,8 @@ resource "aws_kms_key" "jchung_dynamodb_kms" {
 resource "aws_dynamodb_table" "jchung_dynamodb_table" {
   name     = "jchung_dynamodb_table"
   hash_key = "count_id"
+  read_capacity  = 1
+  write_capacity = 1
 
   attribute {
     name = "count_id"
