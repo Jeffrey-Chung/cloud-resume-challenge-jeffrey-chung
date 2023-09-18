@@ -283,26 +283,28 @@ data "aws_iam_policy_document" "jchung_cloudfront_policy" {
     ]
   }
 }
+resource "aws_dynamodb_table_item" "dynamodb_items" {
+  table_name = aws_dynamodb_table.jchung_dynamodb_table.name
+  hash_key   = aws_dynamodb_table.jchung_dynamodb_table.hash_key
+
+  item = <<ITEM
+{
+  "count_id": {"S": "1"},
+  "count_num": {"N": "1"}
+}
+ITEM
+}
 
 #tfsec:ignore:table-customer-key
 resource "aws_dynamodb_table" "jchung_dynamodb_table" {
   name           = "jchung_dynamodb_table"
   hash_key       = "count_id"
-  read_capacity  = 1
-  write_capacity = 1
+  read_capacity  = 5
+  write_capacity = 5
 
   attribute {
     name = "count_id"
     type = "S"
-  }
-
-   global_secondary_index {
-    name               = "count_num"
-    hash_key           = "count_id"
-    write_capacity     = 1
-    read_capacity      = 1
-    projection_type    = "INCLUDE"
-    non_key_attributes = ["count_id"]
   }
 
   server_side_encryption {
