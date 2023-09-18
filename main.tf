@@ -295,11 +295,7 @@ resource "aws_dynamodb_table" "jchung_dynamodb_table" {
     name = "count_id"
     type = "N"
   }
-
-  replica {
-    region_name = var.region
-  }
-
+  
   server_side_encryption {
     enabled     = true
   }
