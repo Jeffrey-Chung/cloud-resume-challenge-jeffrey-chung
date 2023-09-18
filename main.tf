@@ -284,7 +284,7 @@ data "aws_iam_policy_document" "jchung_cloudfront_policy" {
   }
 }
 resource "aws_dynamodb_table_item" "dynamodb_items" {
-  table_name = aws_dynamodb_table.jchung_dynamodb_table.table_name
+  table_name = aws_dynamodb_table.jchung_dynamodb_table.name
   hash_key   = aws_dynamodb_table.jchung_dynamodb_table.hash_key
 
   item = <<ITEM
