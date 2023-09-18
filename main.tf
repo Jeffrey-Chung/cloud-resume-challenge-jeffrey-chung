@@ -288,8 +288,8 @@ data "aws_iam_policy_document" "jchung_cloudfront_policy" {
 resource "aws_dynamodb_table" "jchung_dynamodb_table" {
   name           = "jchung_dynamodb_table"
   hash_key       = "count_id"
-  read_capacity  = 1
-  write_capacity = 1
+  read_capacity  = 5
+  write_capacity = 5
 
   attribute {
     name = "count_id"
