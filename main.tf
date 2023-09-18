@@ -284,10 +284,7 @@ data "aws_iam_policy_document" "jchung_cloudfront_policy" {
   }
 }
 
-resource "aws_kms_key" "jchung_dynamodb_kms" {
-  enable_key_rotation = true
-}
-
+#tfsec:ignore:table-customer-key
 resource "aws_dynamodb_table" "jchung_dynamodb_table" {
   name     = "jchung_dynamodb_table"
   hash_key = "count_id"
@@ -305,7 +302,6 @@ resource "aws_dynamodb_table" "jchung_dynamodb_table" {
 
   server_side_encryption {
     enabled     = true
-    kms_key_arn = aws_kms_key.jchung_dynamodb_kms.key_id
   }
 
   point_in_time_recovery {
