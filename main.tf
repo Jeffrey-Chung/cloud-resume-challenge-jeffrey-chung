@@ -31,7 +31,7 @@ resource "aws_s3_bucket_ownership_controls" "jchung_s3_bucket_ownership_controls
   }
 }
 
-# no public buckets will be un-ignored for cloudfront
+
 resource "aws_s3_bucket_public_access_block" "jchung_s3_bucket_bucket_public_access_block" {
   bucket                  = aws_s3_bucket.jchung_s3_bucket.id
   block_public_acls       = true
@@ -51,7 +51,7 @@ resource "aws_s3_bucket_acl" "jchung_s3_bucket_acl" {
 
 #tfsec:ignore:aws-s3-enable-bucket-logging
 resource "aws_s3_bucket" "jchung_logging_bucket" {
-  bucket = var.logging_bucket_name
+  bucket        = var.logging_bucket_name
   force_destroy = true
 }
 
@@ -203,7 +203,8 @@ resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
   comment = aws_s3_bucket.jchung_s3_bucket.bucket_regional_domain_name
 }
 
-# no need to enable security encryption (WAF) to host this static website since no sensitive information is in the site
+# no need to enable security encryption (WAF) to host this static website since no sensitive information is in the site and would incur
+# additional cost without much gain. 
 # Using default cloudfront certificate for now, may change later in development
 #tfsec:ignore:enable-waf
 #tfsec:ignore:use-secure-tls-policy
@@ -280,5 +281,19 @@ data "aws_iam_policy_document" "jchung_cloudfront_policy" {
     resources = [
       "${aws_s3_bucket.jchung_s3_bucket.arn}/*"
     ]
+  }
+}
+
+resource "aws_dynamodb_table" "jchung_dynamodb_table" {
+  name     = "jchung_dynamodb_table"
+  hash_key = "count_id"
+
+  attribute {
+    name = "count_id"
+    type = "N"
+  }
+
+  replica {
+    region_name = var.region
   }
 }
