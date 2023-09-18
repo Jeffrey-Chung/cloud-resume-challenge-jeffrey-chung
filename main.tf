@@ -293,6 +293,11 @@ resource "aws_dynamodb_table" "jchung_dynamodb_table" {
 
   attribute {
     name = "count_id"
+    type = "S"
+  }
+
+  attribute {
+    name = "count_num"
     type = "N"
   }
 
