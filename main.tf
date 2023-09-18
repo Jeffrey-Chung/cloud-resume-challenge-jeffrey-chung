@@ -284,12 +284,12 @@ data "aws_iam_policy_document" "jchung_cloudfront_policy" {
   }
 }
 resource "aws_dynamodb_table_item" "dynamodb_items" {
-  table_name = aws_dynamodb_table.jchung_dynamodb_table
+  table_name = aws_dynamodb_table.jchung_dynamodb_table.table_name
   hash_key   = aws_dynamodb_table.jchung_dynamodb_table.hash_key
 
   item = <<ITEM
 {
-  "count_id": {"N": "1"},
+  "count_id": {"S": "1"},
   "count_num": {"N": "1"}
 }
 ITEM
