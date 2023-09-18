@@ -286,8 +286,8 @@ data "aws_iam_policy_document" "jchung_cloudfront_policy" {
 
 #tfsec:ignore:table-customer-key
 resource "aws_dynamodb_table" "jchung_dynamodb_table" {
-  name     = "jchung_dynamodb_table"
-  hash_key = "count_id"
+  name           = "jchung_dynamodb_table"
+  hash_key       = "count_id"
   read_capacity  = 1
   write_capacity = 1
 
@@ -296,12 +296,8 @@ resource "aws_dynamodb_table" "jchung_dynamodb_table" {
     type = "N"
   }
 
-  replica {
-    region_name = var.region
-  }
-
   server_side_encryption {
-    enabled     = true
+    enabled = true
   }
 
   point_in_time_recovery {
