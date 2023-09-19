@@ -283,17 +283,6 @@ data "aws_iam_policy_document" "jchung_cloudfront_policy" {
     ]
   }
 }
-resource "aws_dynamodb_table_item" "dynamodb_items" {
-  table_name = aws_dynamodb_table.jchung_dynamodb_table.name
-  hash_key   = aws_dynamodb_table.jchung_dynamodb_table.hash_key
-
-  item = <<ITEM
-{
-  "count_id": {"S": "0"},
-  "count_num": {"N": "0"}
-}
-ITEM
-}
 
 #tfsec:ignore:table-customer-key
 resource "aws_dynamodb_table" "jchung_dynamodb_table" {
@@ -314,6 +303,18 @@ resource "aws_dynamodb_table" "jchung_dynamodb_table" {
   point_in_time_recovery {
     enabled = true
   }
+}
+
+resource "aws_dynamodb_table_item" "dynamodb_items" {
+  table_name = aws_dynamodb_table.jchung_dynamodb_table.name
+  hash_key   = aws_dynamodb_table.jchung_dynamodb_table.hash_key
+
+  item = <<ITEM
+{
+  "count_id": {"S": "0"},
+  "count_num": {"N": "0"}
+}
+ITEM
 }
 
 resource "aws_iam_role" "jchung_lambda_role" {
@@ -343,13 +344,26 @@ resource "aws_iam_policy" "jchung_lambda_iam_policy" {
 {
  "Version": "2012-10-17",
  "Statement": [
+  {
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:BatchGetItem",
+				"dynamodb:GetItem",
+				"dynamodb:Query",
+				"dynamodb:Scan",
+				"dynamodb:BatchWriteItem",
+				"dynamodb:PutItem",
+				"dynamodb:UpdateItem"
+			],
+			"Resource": "arn:aws:dynamodb:ap-southeast-2:663790350014:table/jchung_dynamodb_table"
+	 },
    {
      "Action": [
        "logs:CreateLogGroup",
        "logs:CreateLogStream",
        "logs:PutLogEvents"
      ],
-     "Resource": "arn:aws:logs:ap-southeast-2:*:*",
+     "Resource": "arn:aws:logs:ap-southeast-2:663790350014:*",
      "Effect": "Allow"
    }
  ]
