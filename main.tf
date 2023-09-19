@@ -348,7 +348,7 @@ resource "aws_iam_policy" "jchung_lambda_iam_policy" {
        "logs:CreateLogStream",
        "logs:PutLogEvents"
      ],
-     "Resource": "arn:aws:logs:ap-southeast-2:*:*",
+     "Resource": "arn:aws:logs:ap-southeast-2:663790350014:*",
      "Effect": "Allow"
    }
  ]
