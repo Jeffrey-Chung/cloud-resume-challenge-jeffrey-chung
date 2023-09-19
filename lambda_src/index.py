@@ -18,7 +18,7 @@ def lambda_handler(event, context):
 
    # Update dynamodb table with increased views
    response = table.put_item(Item={
-      'count_id' : '1',
+      'count_id' : '0',
       'count_num' : views
    })
    return views
