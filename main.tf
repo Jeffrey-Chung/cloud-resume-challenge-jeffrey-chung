@@ -348,7 +348,7 @@ resource "aws_iam_policy" "jchung_lambda_iam_policy" {
        "logs:CreateLogStream",
        "logs:PutLogEvents"
      ],
-     "Resource": "arn:aws:logs:*:*:*",
+     "Resource": "arn:aws:logs:ap-southeast-2:*:*",
      "Effect": "Allow"
    }
  ]
@@ -374,4 +374,7 @@ resource "aws_lambda_function" "jchung_lambda_function" {
   handler       = "index.lambda_handler"
   runtime       = "python3.10"
   depends_on    = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
+  tracing_config {
+     mode = "Active"
+   }
 }
