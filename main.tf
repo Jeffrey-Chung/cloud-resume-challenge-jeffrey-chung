@@ -335,6 +335,7 @@ resource "aws_iam_role" "jchung_lambda_role" {
 EOF
 }
 
+#tfsec:ignore:no-policy-wildcards
 resource "aws_iam_policy" "jchung_lambda_iam_policy" {
   name   = "aws_iam_policy_for_terraform_aws_lambda_role"
   path   = "/"
@@ -348,7 +349,7 @@ resource "aws_iam_policy" "jchung_lambda_iam_policy" {
        "logs:CreateLogStream",
        "logs:PutLogEvents"
      ],
-     "Resource": "arn:aws:logs:ap-southeast-2:663790350014:*",
+     "Resource": "arn:aws:logs:ap-southeast-2:*:*",
      "Effect": "Allow"
    }
  ]
