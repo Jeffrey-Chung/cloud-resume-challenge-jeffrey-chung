@@ -385,8 +385,6 @@ resource "aws_lambda_function_url" "lambda_function_url" {
   authorization_type = "NONE"
 
   cors {
-    allow_credentials = true
     allow_origins     = ["*"]
-    allow_methods     = ["GET", "POST", "DELETE"]
   }
 }
