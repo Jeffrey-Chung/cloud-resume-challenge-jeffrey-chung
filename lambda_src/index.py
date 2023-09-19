@@ -2,7 +2,7 @@ import json
 import boto3
 
 # Get the dynamodb table from our existing infrastructure
-dynamodb = boto3.resource('dynamodb')
+dynamodb = boto3.client('dynamodb')
 table = dynamodb.table('jchung_dynamodb_table')
 
 def lambda_handler(event, context):
