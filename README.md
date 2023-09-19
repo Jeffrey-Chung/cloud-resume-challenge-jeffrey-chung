@@ -42,11 +42,20 @@ Challenge(s): Adding the different folders of my static website (i.e. css, js, e
 
 <h1> 5. HTTPS </h1>
 
+I used AWS CloudFront that connects to the S3 website URL, ran via CI/CD with GitHub Actions and Terraform.
+
+Challenge(s): The HTTPS website at one point was not accessible even though there were no errors to my configuration. The 
+reason for that is my geographical restriction settings, which is blocking access to Australia. I changed the restriction to "none" and website is accessible. 
+
 <h1> 6. DNS </h1>
 
 <h1> 7. Javascript </h1>
 
 <h1> 8. Database </h1>
+
+I used AWS DynamoDB as my database to store all the view counts of my website. 
+
+Challenge(s): Learning about hash keys and items for DynamoDB. Turns out in short, hash key is the equivalent of a primary key for my use case and instead of adding a secondary index for my view count, I need to create an item for it instead. 
 
 <h1> 9. API </h1>
 
@@ -64,11 +73,14 @@ This is my repo for the cloud resume challenge.
 
 <h1> 14. CI/CD (backend) </h1>
 
-<h1> 15. CI/CD (frontend) </h1>
-
-OIDC is setup to be able to run GitHub Actions with AWS. Terraform deployment (fmt/init/plan/apply) is also conducted in the `deploy.yml` file.
+OIDC is setup to be able to run GitHub Actions with AWS. Terraform deployment (fmt/init/plan/apply) is also conducted in the `deploy.yml` file. A similar `test.yml` is implemented for every PR to test the infrastructure to look out for any errors before merging to main.
 
 Challenge(s): Configurations for the trusted policy made it difficult to assign the role via Github Actions and OIDC. Turns out that I need to assign my ARN for my identity provider to the `"Federated"` section. Also `StringEquals` must be assigned to my audience and `StringLike` to my repo.
+
+<h1> 15. CI/CD (frontend) </h1>
+
+Same as 14.
+
 
 <h1> 16. Blog Post </h1>
 
