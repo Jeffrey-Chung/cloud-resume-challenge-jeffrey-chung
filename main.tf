@@ -376,6 +376,17 @@ resource "aws_lambda_function" "jchung_lambda_function" {
   runtime       = "python3.10"
   depends_on    = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
   tracing_config {
-     mode = "Active"
-   }
+    mode = "Active"
+  }
+}
+
+resource "aws_lambda_function_url" "lambda_function_url" {
+  function_name      = aws_lambda_function.jchung_lambda_function.function_name
+  authorization_type = "NONE"
+
+  cors {
+    allow_credentials = true
+    allow_origins     = ["*"]
+    allow_methods     = ["GET", "POST", "DELETE"]
+  }
 }
