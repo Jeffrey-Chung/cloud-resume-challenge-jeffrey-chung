@@ -2,8 +2,7 @@ import json
 import boto3
 
 # Get the dynamodb table from our existing infrastructure
-dynamodb = boto3.client('dynamodb')
-table = dynamodb.table('jchung_dynamodb_table')
+table = boto3.resource('dynamodb').Table('jchung_dynamodb_table')
 
 def lambda_handler(event, context):
    # Getting the item with count_id of 0
