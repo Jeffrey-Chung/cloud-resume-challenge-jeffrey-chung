@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv'
+dotenv.config();
 
 const counter = document.getElementById("counter-number");
 async function updateCounter() {
