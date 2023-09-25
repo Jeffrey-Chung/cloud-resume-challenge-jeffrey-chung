@@ -403,3 +403,8 @@ resource "aws_lambda_function_url" "lambda_function_url" {
     allow_origins     = ["*"]
   }
 }
+
+output "LAMBDA_URL" {
+  description = "Lambda Function URL to be added to main.js"
+  value       = aws_lambda_function_url.lambda_function_url.function_url
+}
