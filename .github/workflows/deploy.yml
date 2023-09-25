@@ -65,6 +65,8 @@ jobs:
 
       - name: Overwrite Existing js File with New API 
         run: aws s3 cp js/main.js s3://tf-aws-jchung-cloud-resume-site-bucket/js/main.js
+      
+      - run: node js/main.js
   
   tf-aws-cloud-resume-challenge-destroy:
     name: 'tf-aws-cloud-resume-challenge-destroy'
