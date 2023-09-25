@@ -1,10 +1,11 @@
+import { config } from 'dotenv';
+config();
+
 const counter = document.getElementById("counter-number");
-function updateCounter() {
-	fetch("https://jfskn2tmpce67sghwofcf2gc6u0qrwtb.lambda-url.ap-southeast-2.on.aws/")
+fetch(process.env.LAMBDA_URL)
     .then((response) => response.json())
     .then((data) => {
          counter.innerHTML = `Views: ${data}`
-    });
-   
-}
-updateCounter();
+    }); 
+
+
