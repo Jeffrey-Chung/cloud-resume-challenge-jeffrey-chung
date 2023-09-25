@@ -25,12 +25,6 @@ jobs:
           role-to-assume: ${{ env.IAM_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: latest
-
-      - run: npm i dotenv
-
       - uses: hashicorp/setup-terraform@v2
 
       - name: Terraform fmt
