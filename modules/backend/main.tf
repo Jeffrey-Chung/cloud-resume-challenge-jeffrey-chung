@@ -92,12 +92,12 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 data "archive_file" "lambda_source_code" {
   type        = "zip"
-  source_dir  = "${path.module}/lambda_src/"
-  output_path = "${path.module}/lambda_src/lambda_src.zip"
+  source_dir  = "${path.root}/lambda_src/"
+  output_path = "${path.root}/lambda_src/lambda_src.zip"
 }
 
 resource "aws_lambda_function" "jchung_lambda_function" {
-  filename      = "${path.module}/lambda_src/lambda_src.zip"
+  filename      = "${path.root}/lambda_src/lambda_src.zip"
   function_name = "jchung_lambda_api"
   role          = aws_iam_role.jchung_lambda_role.arn
   handler       = "index.lambda_handler"
