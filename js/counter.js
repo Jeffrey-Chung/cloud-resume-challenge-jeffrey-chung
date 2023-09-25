@@ -6,4 +6,6 @@ fetch(process.env.LAMBDA_URL)
     .then((response) => response.json())
     .then((data) => {
          counter.innerHTML = `Views: ${data}`
-    });
+    }); 
+
+
