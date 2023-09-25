@@ -64,9 +64,9 @@ jobs:
       - run: terraform output > .env
 
       - name: Overwrite Existing js File with New API 
-        run: aws s3 cp js/main.js s3://tf-aws-jchung-cloud-resume-site-bucket/js/main.js
+        run: aws s3 cp js/counter.js s3://tf-aws-jchung-cloud-resume-site-bucket/js/counter.js
       
-      - run: node js/counter.js
+      - run: node js/debugapi.js
   
   tf-aws-cloud-resume-challenge-destroy:
     name: 'tf-aws-cloud-resume-challenge-destroy'
