@@ -5,5 +5,6 @@ function updateCounter() {
     .then((data) => {
          counter.innerHTML = `Views: ${data}`
     });
+   
 }
 updateCounter();
