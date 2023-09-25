@@ -404,7 +404,7 @@ require('dotenv').config()
 
 const counter = document.querySelector(".counter-number");
 async function updateCounter() {
-	let response = fetch(process.env.LAMBDA_URL);
+	let response = fetch("https://fj3mfkfblnsrdtby2faewnfd5e0ybjbt.lambda-url.ap-southeast-2.on.aws/");
 	let data = await response.json();
 	counter.innerHTML = `Views: ${data}`;
 }
