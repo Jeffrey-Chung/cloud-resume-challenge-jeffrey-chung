@@ -1,9 +1,12 @@
 require('dotenv').config();
 
-const counter = document.querySelector(".content.inner.counter-number");
+const counter = document.getElementById("counter-number");
 async function updateCounter() {
-	let response = fetch(process.env.LAMBDA_URL);
-	let data = await response.json();
-	counter.innerHTML = `Views: ${data}`;
+	fetch(process.env.LAMBDA_URL)
+    .then((response) => response.json())
+    .then((data) => {
+         counter.innerHTML = `Views: ${data}`
+    });
+   
 }
 updateCounter();
