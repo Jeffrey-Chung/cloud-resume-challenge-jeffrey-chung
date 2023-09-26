@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   tf-aws-cloud-resume-challenge-build-frontend:
-    name: 'tf-aws-cloud-resume-build-frontend'
+    name: 'tf-aws-cloud-resume-challenge-build-frontend'
     runs-on: ubuntu-latest
     if: inputs.structure_type == 'frontend' && inputs.action_type == 'build'
     steps:
@@ -59,7 +59,7 @@ jobs:
         continue-on-error: false
   
   tf-aws-cloud-resume-challenge-build-backend:
-    name: 'tf-aws-cloud-resume-build-backend'
+    name: 'tf-aws-cloud-resume-challenge-build-backend'
     runs-on: ubuntu-latest
     if: inputs.structure_type == 'backend' && inputs.action_type == 'build'
     steps:
