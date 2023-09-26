@@ -3,9 +3,12 @@ name: Deployment - terraform apply
 on:
   workflow_dispatch:
     inputs:
-        action_type:
-            description: "Type of action you want to take (i.e. 'frontend' or 'backend' or 'destroy')"
-            required: true
+      structure_type:
+        description: "Part of structure you want to build/destroy (i.e. 'frontend' or 'backend')"
+        required: true
+      action_type:
+          description: "Type of action you want to take (i.e. 'build' or 'destroy')"
+          required: true
 
 env:
    AWS_REGION: ap-southeast-2
@@ -19,7 +22,7 @@ jobs:
   tf-aws-cloud-resume-challenge-build-frontend:
     name: 'tf-aws-cloud-resume-build-frontend'
     runs-on: ubuntu-latest
-    if: inputs.action_type == 'frontend'
+    if: inputs.structure_type == 'frontend' && inputs.action_type == 'build'
     steps:
       - name: Check out this repository
         uses: actions/checkout@v3
@@ -58,7 +61,7 @@ jobs:
   tf-aws-cloud-resume-challenge-build-backend:
     name: 'tf-aws-cloud-resume-build-backend'
     runs-on: ubuntu-latest
-    if: inputs.action_type == 'backend'
+    if: inputs.structure_type == 'backend' && inputs.action_type == 'build'
     steps:
       - name: Check out this repository
         uses: actions/checkout@v3
@@ -94,10 +97,10 @@ jobs:
         run: terraform apply -target=module.backend -auto-approve
         continue-on-error: false
               
-  tf-aws-cloud-resume-challenge-destroy:
-    name: 'tf-aws-cloud-resume-challenge-destroy'
+  tf-aws-cloud-resume-challenge-destroy-frontend:
+    name: 'tf-aws-cloud-resume-challenge-destroy-frontend'
     runs-on: ubuntu-latest
-    if: inputs.action_type == 'destroy'
+    if: inputs.structure_type == 'frontend' && inputs.action_type == 'destroy'
     steps:
       - name: Check out this repository
         uses: actions/checkout@v3
@@ -116,11 +119,40 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan
+        run: terraform plan -target=module.frontend
         continue-on-error: false
       
       - name: Terraform Destroy
         id: destroy
-        run: terraform destroy -auto-approve
+        run: terraform destroy -target=module.frontend -auto-approve
         continue-on-error: false
 
+  tf-aws-cloud-resume-challenge-destroy-backend:
+    name: 'tf-aws-cloud-resume-challenge-destroy-backend'
+    runs-on: ubuntu-latest
+    if: inputs.structure_type == 'backend' && inputs.action_type == 'destroy'
+    steps:
+      - name: Check out this repository
+        uses: actions/checkout@v3
+      
+      - name: Set AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ env.IAM_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - uses: hashicorp/setup-terraform@v2
+      
+      - name: Terraform init
+        id: init
+        run: terraform init
+      
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -target=module.backend
+        continue-on-error: false
+            
+      - name: Terraform Destroy
+        id: destroy
+        run: terraform destroy -target=module.backend -auto-approve
+        continue-on-error: false
