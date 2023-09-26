@@ -105,9 +105,9 @@ resource "aws_s3_object" "html_s3_object" {
     aws_s3_bucket_public_access_block.jchung_s3_bucket_bucket_public_access_block,
   ]
   key          = "index.html"
-  source       = "${path.module}/index.html"
+  source       = "${path.root}/index.html"
   content_type = "text/html"
-  etag         = filemd5("${path.module}/index.html")
+  etag         = filemd5("${path.root}/index.html")
 }
 resource "aws_s3_object" "error_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
@@ -116,9 +116,9 @@ resource "aws_s3_object" "error_s3_object" {
     aws_s3_bucket_public_access_block.jchung_s3_bucket_bucket_public_access_block,
   ]
   key          = "error.html"
-  source       = "${path.module}/error.html"
+  source       = "${path.root}/error.html"
   content_type = "text/html"
-  etag         = filemd5("${path.module}/error.html")
+  etag         = filemd5("${path.root}/error.html")
 }
 resource "aws_s3_object" "css_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
@@ -128,9 +128,9 @@ resource "aws_s3_object" "css_s3_object" {
   ]
   for_each     = { for idx, file in local.css_files : idx => file }
   key          = "/css/${each.value}"
-  source       = "${path.module}/css/${each.value}"
+  source       = "${path.root}/css/${each.value}"
   content_type = "text/css"
-  etag         = filemd5("${path.module}/css/${each.value}")
+  etag         = filemd5("${path.root}/css/${each.value}")
 }
 resource "aws_s3_object" "js_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
@@ -140,9 +140,9 @@ resource "aws_s3_object" "js_s3_object" {
   ]
   for_each     = { for idx, file in local.js_files : idx => file }
   key          = "/js/${each.value}"
-  source       = "${path.module}/js/${each.value}"
+  source       = "${path.root}/js/${each.value}"
   content_type = "text/javascript"
-  etag         = filemd5("${path.module}/js/${each.value}")
+  etag         = filemd5("${path.root}/js/${each.value}")
 }
 resource "aws_s3_object" "images_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
@@ -152,9 +152,9 @@ resource "aws_s3_object" "images_s3_object" {
   ]
   for_each     = { for idx, file in local.images_files : idx => file }
   key          = "/images/${each.value}"
-  source       = "${path.module}/images/${each.value}"
+  source       = "${path.root}/images/${each.value}"
   content_type = "image/png"
-  etag         = filemd5("${path.module}/images/${each.value}")
+  etag         = filemd5("${path.root}/images/${each.value}")
 }
 resource "aws_s3_object" "sass_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
@@ -164,8 +164,8 @@ resource "aws_s3_object" "sass_s3_object" {
   ]
   for_each = { for idx, file in local.sass_files : idx => file }
   key      = "/sass/${each.value}"
-  source   = "${path.module}/sass/${each.value}"
-  etag     = filemd5("${path.module}/sass/${each.value}")
+  source   = "${path.root}/sass/${each.value}"
+  etag     = filemd5("${path.root}/sass/${each.value}")
 }
 resource "aws_s3_object" "sections_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
@@ -175,8 +175,8 @@ resource "aws_s3_object" "sections_s3_object" {
   ]
   for_each = { for idx, file in local.sections_files : idx => file }
   key      = "/sections/${each.value}"
-  source   = "${path.module}/sections/${each.value}"
-  etag     = filemd5("${path.module}/sections/${each.value}")
+  source   = "${path.root}/sections/${each.value}"
+  etag     = filemd5("${path.root}/sections/${each.value}")
 }
 resource "aws_s3_object" "webfonts_s3_object" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
@@ -186,8 +186,8 @@ resource "aws_s3_object" "webfonts_s3_object" {
   ]
   for_each = { for idx, file in local.webfonts_files : idx => file }
   key      = "/webfonts/${each.value}"
-  source   = "${path.module}/webfonts/${each.value}"
-  etag     = filemd5("${path.module}/webfonts/${each.value}")
+  source   = "${path.root}/webfonts/${each.value}"
+  etag     = filemd5("${path.root}/webfonts/${each.value}")
 }
 resource "aws_s3_bucket_website_configuration" "jchung_s3_bucket_website_config" {
   bucket = aws_s3_bucket.jchung_s3_bucket.id
@@ -284,127 +284,3 @@ data "aws_iam_policy_document" "jchung_cloudfront_policy" {
   }
 }
 
-#tfsec:ignore:table-customer-key
-resource "aws_dynamodb_table" "jchung_dynamodb_table" {
-  name           = "jchung_dynamodb_table"
-  hash_key       = "count_id"
-  read_capacity  = 5
-  write_capacity = 5
-
-  attribute {
-    name = "count_id"
-    type = "S"
-  }
-
-  server_side_encryption {
-    enabled = true
-  }
-
-  point_in_time_recovery {
-    enabled = true
-  }
-}
-
-resource "aws_dynamodb_table_item" "dynamodb_items" {
-  table_name = aws_dynamodb_table.jchung_dynamodb_table.name
-  hash_key   = aws_dynamodb_table.jchung_dynamodb_table.hash_key
-
-  item = <<ITEM
-{
-  "count_id": {"S": "0"},
-  "count_num": {"N": "0"}
-}
-ITEM
-}
-
-resource "aws_iam_role" "jchung_lambda_role" {
-  name               = "jchung_lambda_role"
-  assume_role_policy = <<EOF
-{
- "Version": "2012-10-17",
- "Statement": [
-   {
-     "Action": "sts:AssumeRole",
-     "Principal": {
-       "Service": "lambda.amazonaws.com"
-     },
-     "Effect": "Allow",
-     "Sid": ""
-   }
- ]
-}
-EOF
-}
-
-#tfsec:ignore:no-policy-wildcards
-resource "aws_iam_policy" "jchung_lambda_iam_policy" {
-  name   = "aws_iam_policy_for_terraform_aws_lambda_role"
-  path   = "/"
-  policy = <<EOF
-{
- "Version": "2012-10-17",
- "Statement": [
-  {
-			"Effect": "Allow",
-			"Action": [
-				"dynamodb:BatchGetItem",
-				"dynamodb:GetItem",
-				"dynamodb:Query",
-				"dynamodb:Scan",
-				"dynamodb:BatchWriteItem",
-				"dynamodb:PutItem",
-				"dynamodb:UpdateItem"
-			],
-			"Resource": "arn:aws:dynamodb:ap-southeast-2:663790350014:table/jchung_dynamodb_table"
-	 },
-   {
-     "Action": [
-       "logs:CreateLogGroup",
-       "logs:CreateLogStream",
-       "logs:PutLogEvents"
-     ],
-     "Resource": "arn:aws:logs:ap-southeast-2:663790350014:*",
-     "Effect": "Allow"
-   }
- ]
-}
-EOF
-}
-
-resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
-  role       = aws_iam_role.jchung_lambda_role.name
-  policy_arn = aws_iam_policy.jchung_lambda_iam_policy.arn
-}
-
-data "archive_file" "lambda_source_code" {
-  type        = "zip"
-  source_dir  = "${path.module}/lambda_src/"
-  output_path = "${path.module}/lambda_src/lambda_src.zip"
-}
-
-resource "aws_lambda_function" "jchung_lambda_function" {
-  filename      = "${path.module}/lambda_src/lambda_src.zip"
-  function_name = "jchung_lambda_api"
-  role          = aws_iam_role.jchung_lambda_role.arn
-  handler       = "index.lambda_handler"
-  runtime       = "python3.10"
-  depends_on    = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
-  tracing_config {
-    mode = "Active"
-  }
-}
-
-resource "aws_lambda_function_url" "lambda_function_url" {
-  function_name      = aws_lambda_function.jchung_lambda_function.function_name
-  authorization_type = "NONE"
-
-  cors {
-    allow_credentials = true
-    allow_origins     = ["*"]
-  }
-}
-
-output "LAMBDA_URL" {
-  description = "Lambda Function URL to be added to main.js"
-  value       = aws_lambda_function_url.lambda_function_url.function_url
-}

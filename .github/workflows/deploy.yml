@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
         action_type:
-            description: "Type of action you want to take (i.e. 'build' or 'destroy')"
+            description: "Type of action you want to take (i.e. 'frontend' or 'backend' or 'destroy')"
             required: true
 
 env:
@@ -16,10 +16,10 @@ permissions:
    contents: read
 
 jobs:
-  tf-aws-cloud-resume-challenge-deploy:
-    name: 'tf-aws-cloud-resume-challenge-deploy'
+  tf-aws-cloud-resume-challenge-build-frontend:
+    name: 'tf-aws-cloud-resume-build-frontend'
     runs-on: ubuntu-latest
-    if: inputs.action_type == 'build'
+    if: inputs.action_type == 'frontend'
     steps:
       - name: Check out this repository
         uses: actions/checkout@v3
@@ -29,12 +29,6 @@ jobs:
         with:
           role-to-assume: ${{ env.IAM_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: latest
-  
-      - run: npm i dotenv
 
       - uses: hashicorp/setup-terraform@v2
 
@@ -53,19 +47,53 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan
+        run: terraform plan -target=module.frontend
         continue-on-error: false
       
       - name: Terraform Apply
         id: apply
-        run: terraform apply -auto-approve
+        run: terraform apply -target=module.frontend -auto-approve
         continue-on-error: false
+  
+  tf-aws-cloud-resume-challenge-build-backend:
+    name: 'tf-aws-cloud-resume-build-backend'
+    runs-on: ubuntu-latest
+    if: inputs.action_type == 'backend'
+    steps:
+      - name: Check out this repository
+        uses: actions/checkout@v3
       
-      - run: terraform output > .env
-
-      - name: Overwrite Existing js File with New API 
-        run: aws s3 cp js/counter.js s3://tf-aws-jchung-cloud-resume-site-bucket/js/counter.js
-
+      - name: Set AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ env.IAM_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - uses: hashicorp/setup-terraform@v2
+      
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+      
+      - name: Terraform init
+        id: init
+        run: terraform init
+      
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate
+      
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -target=module.backend
+        continue-on-error: false
+            
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -target=module.backend -auto-approve
+        continue-on-error: false
+              
   tf-aws-cloud-resume-challenge-destroy:
     name: 'tf-aws-cloud-resume-challenge-destroy'
     runs-on: ubuntu-latest
