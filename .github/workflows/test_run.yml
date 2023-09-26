@@ -40,13 +40,10 @@ jobs:
         id: validate
         run: terraform validate
 
-      - name: Terraform Plan Backend
+      - name: Terraform Plan 
         id: plan
-        run: terraform plan -target=module.backend
+        run: terraform plan 
         continue-on-error: false
-      
-      - name: Terraform Plan Frontend
-        run: terraform plan -target=module.frontend
-        continue-on-error: false
+
       
     
