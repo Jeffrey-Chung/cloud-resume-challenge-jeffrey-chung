@@ -1,7 +1,7 @@
 module "frontend" {
-  source = "modules/frontend"
+  source = "./modules/frontend"
 }
 
-module "frontend" {
-  source = "modules/backend"
+module "backend" {
+  source = "./modules/backend"
 }
