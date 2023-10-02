@@ -35,6 +35,14 @@ jobs:
 
       - uses: hashicorp/setup-terraform@v2
 
+      - name: Setting up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11.2'
+      
+      - name: Install boto3
+        run: pip install --upgrade pip boto3
+
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
@@ -57,6 +65,9 @@ jobs:
         id: apply
         run: terraform apply -target=module.frontend -auto-approve
         continue-on-error: false
+      
+      - name: Run Unit Tests
+        run: python3 -m unittest tests/test_frontend.py
   
   tf-aws-cloud-resume-challenge-build-backend:
     name: 'tf-aws-cloud-resume-challenge-build-backend'
@@ -73,6 +84,14 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
       
       - uses: hashicorp/setup-terraform@v2
+      
+      - name: Setting up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11.2'
+      
+      - name: Install boto3
+        run: pip install --upgrade pip boto3
       
       - name: Terraform fmt
         id: fmt
@@ -96,6 +115,9 @@ jobs:
         id: apply
         run: terraform apply -target=module.backend -auto-approve
         continue-on-error: false
+      
+      - name: Run Unit Tests
+        run: python3 -m unittest tests/test_backend.py
               
   tf-aws-cloud-resume-challenge-destroy-frontend:
     name: 'tf-aws-cloud-resume-challenge-destroy-frontend'
