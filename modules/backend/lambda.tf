@@ -1,3 +1,7 @@
+/*
+All the Configuration for Lambda goes here, the Lambda function is created in the lambda_src folder
+*/
+
 resource "aws_iam_role" "jchung_lambda_role" {
   name               = "jchung_lambda_role"
   assume_role_policy = <<EOF
