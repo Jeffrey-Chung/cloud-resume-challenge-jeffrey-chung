@@ -1,3 +1,7 @@
+/*
+All the Configuration for CloudFront goes here
+*/
+
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
   comment = aws_s3_bucket.jchung_s3_bucket.bucket_regional_domain_name
 }
