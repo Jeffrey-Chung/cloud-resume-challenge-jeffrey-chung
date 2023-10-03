@@ -12,7 +12,7 @@ This script tests:
 # This function tests whether the S3 buckets are created
 # Parameter: name of the bucket created
 def bucket_created(bucket_name):
-    s3 = boto3.resource('s3')
+    s3 = boto3.client('s3')
     response = s3.list_buckets()
     for bucket in response['Buckets']:
         if bucket["Name"] == bucket_name:
@@ -21,7 +21,7 @@ def bucket_created(bucket_name):
 # This function tests whether the cloudfront distro is created
 # Since the ID is unique every time, it will search via the cache policy ID
 def cloudfront_created(cache_policy_id):
-    cloudfront = boto3.resource('cloudfront')
+    cloudfront = boto3.client('cloudfront')
     response = cloudfront.list_distributions_by_cache_policy_id(CachePolicyId=cache_policy_id)
     if response['DistributionList']['Quantity'] > 0:
         for distribution in response['DistributionList']['Items']:
