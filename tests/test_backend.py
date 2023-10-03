@@ -14,23 +14,23 @@ This script tests:
 # Parameter: name of the lambda function
 def lambda_function_created(function_name):
     lambda_function = boto3.client('lambda')
-    response = lambda_function.get_function(function_name)
+    response = lambda_function.get_function(FunctionName=function_name)
     if response["Configuration"]["FunctionName"] == function_name:
         return True
     
 # This function tests whether the lambda IAM role is created
 # Parameter: name of the lambda role
 def lambda_role_created(lambda_role_name):
-    lambda_role = boto3.resource('iam')
-    response = lambda_role.get_role(lambda_role_name)
+    lambda_role = boto3.client('iam')
+    response = lambda_role.get_role(RoleName=lambda_role_name)
     if response['Role']['RoleName'] == lambda_role_name:
         return True
 
 # This function tests whether the lambda policy is created and attached to the IAM role
 # Parameter: name of the lambda policy and lambda role
 def lambda_policy_created(lambda_role_name, lambda_policy_name):
-    lambda_policy = boto3.resource('iam')
-    response = lambda_policy.get_role_policy(lambda_role_name, lambda_policy_name)
+    lambda_policy = boto3.client('iam')
+    response = lambda_policy.get_role_policy(RoleName=lambda_role_name, PolicyName=lambda_policy_name)
     if response['PolicyName'] == lambda_policy_name:
         return True
 
