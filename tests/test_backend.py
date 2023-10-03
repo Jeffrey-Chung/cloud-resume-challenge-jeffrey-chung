@@ -13,7 +13,7 @@ This script tests:
 # This function tests whether the lambda function is created
 # Parameter: name of the lambda function
 def lambda_function_created(function_name):
-    lambda_function = boto3.resource('lambda')
+    lambda_function = boto3.client('lambda')
     response = lambda_function.get_function(function_name)
     if response["Configuration"]["FunctionName"] == function_name:
         return True
