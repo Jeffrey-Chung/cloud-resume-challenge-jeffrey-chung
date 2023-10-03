@@ -75,6 +75,14 @@ Challenge(s): Same as 9.
 
 <h1> 11. Tests </h1>
 
+I added unit tests with the unittest and boto3 libraries with Python under the `tests` folder. These will test whether the infrastructure is created for each workflow (frontend and backend).
+
+Challenge(s): The main challenge was to debate whether to use `boto3.resource` or `boto3.client` to call the AWS objects. It turns out that the boto3 documentation I was reading was based on `boto3.client` usage, hence most of the resources was called via the client equivalent. 
+
+There were issues with detecting the policy attached to the lambda IAM role via the `.get_role_policy()`. However, I simplified it to call for the policy specifically via its ARN instead of name. 
+
+There were issues with listing the cloudfront distributions as I initially called it via the cache policy ID, in which the CachePolicyId cannot be a managed policy id, hence an invalid argument error. For this I simply changed it to list all distributions instead. 
+
 <h1> 12. Infrastructure as Code </h1>
 
 Terraform is used as the IaC tool for this challenge. tfsec is also implemented to make sure that code quality is on par with best practices per every pull request.
