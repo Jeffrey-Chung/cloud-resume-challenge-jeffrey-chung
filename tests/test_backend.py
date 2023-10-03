@@ -49,7 +49,7 @@ class TestBackEnd(unittest.TestCase):
         self.assertTrue(lambda_role_created('jchung_lambda_role'))
 
     def test_lambda_policy(self):
-        self.assertTrue(lambda_policy_created('jchung_lambda_role', 'aws_iam_policy_for_terraform_aws_lambda_role'))
+        self.assertTrue(lambda_policy_created('aws_iam_policy_for_terraform_aws_lambda_role'))
 
     def test_lambda_function(self):
         self.assertTrue(lambda_function_created('jchung_lambda_api'))
