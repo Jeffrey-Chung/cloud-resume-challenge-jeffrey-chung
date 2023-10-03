@@ -18,23 +18,20 @@ def lambda_function_created(function_name):
     if response["Configuration"]["FunctionName"] == function_name:
         return True
     
-def get_iam_role(lambda_role_name):
-    lambda_role = boto3.client('iam')
-    response = lambda_role.get_role(RoleName=lambda_role_name)
-    return response
-    
 # This function tests whether the lambda IAM role is created
 # Parameter: name of the lambda role
 def lambda_role_created(lambda_role_name):
-    response = get_iam_role(lambda_role_name)
+    lambda_role = boto3.client('iam')
+    response = lambda_role.get_role(RoleName=lambda_role_name)
     if response['Role']['RoleName'] == lambda_role_name:
         return True
 
-# This function tests whether the lambda policy is created and attached to the IAM role
+# This function tests whether the lambda policy is created
 # Parameter: name of the lambda policy and lambda role
-def lambda_policy_created(lambda_role_name, lambda_policy_name):
-    response = get_iam_role(lambda_role_name)
-    if response['Role']['AssumeRolePolicyDocument'] == lambda_policy_name:
+def lambda_policy_created(lambda_policy_name):
+    lambda_policy = boto3.client('iam')
+    response = lambda_policy.get_policy(PolicyArn='arn:aws:iam::663790350014:policy/aws_iam_policy_for_terraform_aws_lambda_role')
+    if response['Policy']['PolicyName'] == lambda_policy_name:
         return True
 
 # This function tests whether the DynamoDB table is created to store view count
