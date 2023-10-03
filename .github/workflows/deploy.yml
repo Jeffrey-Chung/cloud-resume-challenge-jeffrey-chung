@@ -5,10 +5,18 @@ on:
     inputs:
       structure_type:
         description: "Part of structure you want to build/destroy (i.e. 'frontend' or 'backend')"
+        type: choice
         required: true
+        options:
+          - backend
+          - frontend
       action_type:
           description: "Type of action you want to take (i.e. 'build' or 'destroy')"
+          type: choice
           required: true
+          options:
+            - build
+            - destroy
 
 env:
    AWS_REGION: ap-southeast-2
