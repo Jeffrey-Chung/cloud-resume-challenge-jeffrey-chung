@@ -19,10 +19,9 @@ def bucket_created(bucket_name):
             return True
         
 # This function tests whether the cloudfront distro is created
-# Since the ID is unique every time, it will search via the cache policy ID
-def cloudfront_created(cache_policy_id):
+def cloudfront_created():
     cloudfront = boto3.client('cloudfront')
-    response = cloudfront.list_distributions_by_cache_policy_id(CachePolicyId=cache_policy_id)
+    response = cloudfront.list_distributions()
     if response['DistributionList']['Quantity'] > 0:
         for distribution in response['DistributionList']['Items']:
             print(f"Distribution Id: {distribution['Id']}")
@@ -37,7 +36,7 @@ class TestFrontEnd(unittest.TestCase):
         self.assertTrue(bucket_created('tf-aws-jchung-cloud-resume-logging-bucket'))
 
     def test_cloudfront(self):
-        self.assertTrue(cloudfront_created('658327ea-f89d-4fab-a63d-7e88639e58f6'))
+        self.assertTrue(cloudfront_created())
 
 if __name__ == '__main__':
     unittest.main()
