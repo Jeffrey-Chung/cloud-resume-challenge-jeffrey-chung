@@ -26,6 +26,11 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   comment             = "jchung-cloud-resume-challenge"
   default_root_object = "index.html"
 
+   aliases = [
+    "${data.aws_route53_zone.route53_zone.name}",
+    "www.${data.aws_route53_zone.route53_zone.name}",
+  ]
+
   logging_config {
     include_cookies = false
     bucket          = aws_s3_bucket.jchung_logging_bucket.bucket_regional_domain_name
@@ -84,5 +89,31 @@ data "aws_iam_policy_document" "jchung_cloudfront_policy" {
     resources = [
       "${aws_s3_bucket.jchung_s3_bucket.arn}/*"
     ]
+  }
+}
+
+resource "aws_route53_record" "www-jchung-cloud-resume" {
+  zone_id = data.aws_route53_zone.route53_zone.zone_id
+  name    = "www.${data.aws_route53_zone.route53_zone.name}"
+
+  type = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.s3_distribution.domain_name
+    zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "jchung-cloud-resume" {
+  zone_id = data.aws_route53_zone.route53_zone.zone_id
+  name    = data.aws_route53_zone.route53_zone.name
+
+  type = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.s3_distribution.domain_name
+    zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+    evaluate_target_health = false
   }
 }
