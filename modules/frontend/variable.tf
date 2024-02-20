@@ -10,8 +10,12 @@ variable "region" {
   default = "ap-southeast-2"
 }
 
+variable "route53_domain_name" {
+  default = "jchung-resume.com"
+}
+
 data "aws_route53_zone" "route53_zone" {
-  name = "jchung-resume.com"
+  name = var.route53_domain_name
 }
 
 locals {
