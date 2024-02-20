@@ -1,3 +1,7 @@
+/*
+All the Configuration for Route53 hosted zone goes here, the region for the certificate is in us-east-1
+*/
+
 provider "aws" {
   alias  = "virginia"
   region = "us-east-1"

@@ -49,6 +49,10 @@ reason for that is my geographical restriction settings, which is blocking acces
 
 <h1> 6. DNS </h1>
 
+First, I used GoDaddy.com to buy a domain name for my website. The name of the domain is `jchung-resume.com`. Then I manually create a public Route53 hosted zone with the domain name and attached its nameservers in my GoDaddy.com. Then I create a SSL certificate for my domain name in the Amazon Certificate Manager (ACM). Then I create 2 A record entries (one for just `jchung-resume.com` and another for `www.jchung-resume.com`) so that they redirect to my respective CloudFront network.
+
+Challenge(s): Most of the issues stem from lacking permissions to conduct certain actions via GitHub Actions based on the policies it has on my IAM role at that time, which is an ongoing issue throughout the project. The most confusing of them all was that I didn't expect CloudFront logs to have a separate policy to using CloudFront itself (referring to Amazon's own policies to attach to an IAM role).
+
 <h1> 7. Javascript </h1>
 
 I added a `counter.js` file to fetch the API to show the visitor counter. 
