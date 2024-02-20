@@ -6,10 +6,10 @@ provider "aws" {
 resource "aws_acm_certificate" "acm_cert" {
   provider = aws.virginia
 
-  domain_name       = data.aws_route53_zone.route53_zone.name
+  domain_name       = var.route53_domain_name
   validation_method = "DNS"
 
-  subject_alternative_names = ["*.${data.aws_route53_zone.route53_zone.name}"]
+  subject_alternative_names = ["*.${var.route53_domain_name}"]
 
   key_algorithm = "RSA_2048"
 

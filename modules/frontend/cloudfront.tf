@@ -27,8 +27,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   default_root_object = "index.html"
 
    aliases = [
-    "${data.aws_route53_zone.route53_zone.name}",
-    "www.${data.aws_route53_zone.route53_zone.name}",
+    "${var.route53_domain_name}",
+    "www.${var.route53_domain_name}",
   ]
 
   logging_config {
@@ -61,7 +61,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+     acm_certificate_arn = aws_acm_certificate.acm_cert.arn
+     ssl_support_method  = "sni-only"
   }
 }
 
@@ -94,7 +95,7 @@ data "aws_iam_policy_document" "jchung_cloudfront_policy" {
 
 resource "aws_route53_record" "www-jchung-cloud-resume" {
   zone_id = data.aws_route53_zone.route53_zone.zone_id
-  name    = "www.${data.aws_route53_zone.route53_zone.name}"
+  name    = "www.${var.route53_domain_name}"
 
   type = "A"
 
@@ -107,7 +108,7 @@ resource "aws_route53_record" "www-jchung-cloud-resume" {
 
 resource "aws_route53_record" "jchung-cloud-resume" {
   zone_id = data.aws_route53_zone.route53_zone.zone_id
-  name    = data.aws_route53_zone.route53_zone.name
+  name    = var.route53_domain_name
 
   type = "A"
 
