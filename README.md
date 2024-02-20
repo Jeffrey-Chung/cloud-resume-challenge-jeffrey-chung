@@ -1,6 +1,12 @@
 # Cloud-Resume-Challenge-Jeffrey-Chung
 
-<h3>Still in WIP</h3>
+<h1>Website Link</h1>
+
+If the full infrastructure is deployed, here are the links to the website:
+
+`jchung-resume.com`
+
+`www.jchung-resume.com`
 
 <h1>Docker (extra)</h1>
 
@@ -48,6 +54,10 @@ Challenge(s): The HTTPS website at one point was not accessible even though ther
 reason for that is my geographical restriction settings, which is blocking access to Australia. I changed the restriction to "none" and website is accessible. 
 
 <h1> 6. DNS </h1>
+
+First, I used GoDaddy.com to buy a domain name for my website. The name of the domain is `jchung-resume.com`. Then I manually create a public Route53 hosted zone with the domain name and attached its nameservers in my GoDaddy.com. Then I create a SSL certificate for my domain name in the Amazon Certificate Manager (ACM). Then I create 2 A record entries (one for just `jchung-resume.com` and another for `www.jchung-resume.com`) so that they redirect to my respective CloudFront network.
+
+Challenge(s): Most of the issues stem from lacking permissions to conduct certain actions via GitHub Actions based on the policies it has on my IAM role at that time, which is an ongoing issue throughout the project. The most confusing of them all was that I didn't expect CloudFront logs to have a separate policy to using CloudFront itself (referring to Amazon's own policies to attach to an IAM role).
 
 <h1> 7. Javascript </h1>
 
@@ -110,33 +120,3 @@ This workflow runs the infrastructure related to the S3 buckets and Cloudfront t
 
 <h1> 16. Blog Post </h1>
 
-Dimension by HTML5 UP
-html5up.net | @ajlkn
-Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-
-
-This is Dimension, a fun little one-pager with modal-ized (is that a word?) "pages"
-and a cool depth effect (click on a menu item to see what I mean). Simple, fully
-responsive, and kitted out with all the usual pre-styled elements you'd expect.
-Hope you dig it 
-
-Demo images* courtesy of Unsplash, a radtastic collection of CC0 (public domain) images
-you can use for pretty much whatever.
-
-(* = not included)
-
-AJ
-aj@lkn.io | @ajlkn
-
-
-Credits:
-
-	Demo Images:
-		Unsplash (unsplash.com)
-
-	Icons:
-		Font Awesome (fontawesome.io)
-
-	Other:
-		jQuery (jquery.com)
-		Responsive Tools (github.com/ajlkn/responsive-tools)
