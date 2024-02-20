@@ -37,9 +37,9 @@ resource "aws_s3_bucket_ownership_controls" "jchung_s3_bucket_ownership_controls
 
 resource "aws_s3_bucket_public_access_block" "jchung_s3_bucket_bucket_public_access_block" {
   bucket                  = aws_s3_bucket.jchung_s3_bucket.id
-  block_public_acls       = true
+  block_public_acls       = false
   block_public_policy     = true
-  ignore_public_acls      = true
+  ignore_public_acls      = false
   restrict_public_buckets = true
 }
 
