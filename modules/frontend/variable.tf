@@ -10,6 +10,10 @@ variable "region" {
   default = "ap-southeast-2"
 }
 
+data "aws_route53_zone" "route53_zone" {
+  name = "jchung-resume.com"
+}
+
 locals {
   css_files      = flatten([for d in flatten(fileset("${path.root}/css", "*")) : trim(d, "../")])
   images_files   = flatten([for d in flatten(fileset("${path.root}/images", "*")) : trim(d, "../")])
