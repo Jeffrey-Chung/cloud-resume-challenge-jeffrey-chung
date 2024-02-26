@@ -4,9 +4,9 @@
 
 If the full infrastructure is deployed, here are the links to the website:
 
-`jchung-resume.com`
+<a href="jchung-resume.com" target="_blank">jchung-resume.com</a>
 
-`www.jchung-resume.com`
+<a href="www.jchung-resume.com" target="_blank">www.jchung-resume.com</a>
 
 <h1>Docker (extra)</h1>
 
@@ -14,7 +14,7 @@ Command to use Dockerized website: `docker run -it --name portfolio_website -p 8
 
 How to build Docker Image: `docker build -t <DockerHub username>/portfolio_website:latest .`
 
-Link of Dockerized website: `http://localhost:8080/`
+Link of Dockerized website: <a href="(http://localhost:8080/" target="_blank">http://localhost:8080/</a>
 
 <h1> Docker Compose (extra) </h1>
 
@@ -22,9 +22,9 @@ Also implemented Docker Compose to alternatively and locally host sites with Apa
 
 Command to spin up containers: `docker-compose up -d`
 
-Link of website on Apache server: `http://localhost:8082/`
+Link of website on Apache server: <a href="(http://localhost:8082/" target="_blank">http://localhost:8082/</a>
 
-Link of website on Nginx server: `http://localhost:8081/`
+Link of website on Nginx server: <a href="(http://localhost:8081/" target="_blank">http://localhost:8081/</a>
 
 Command to disable containers: `docker-compose down`
 
