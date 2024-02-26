@@ -74,13 +74,26 @@
 				<p> 2020 - 2023</p>
 				<!-- Content -->
 				<p>
-				<p>Completed all subjects for the degree. Sub-major in data analytics.</p>
+				<p>Graduated with Distinction. Sub-major in data analytics.</p>
 				</p>
 
 				<h4 class="major">Work Experience</h4>
+				<h4>Navantia Australia | R&D Cloud Graduate</h4>
+				<!-- Metadata -->
+				<strong><em>January 2024 - Current</em></strong>
+				<!-- Content -->
+				<p>
+				<ul>
+					<li>
+						Proposed an Azure cloud environment for Marintec, the joint institude between Navantia and UTS to migrate and host our R&D projects from UTS's cloud environment.
+						This includes the need for multiple environments such as development, testing and production, implementing various tagging and monitoring strategies and potential considerations
+						of migrating existing projects such as our internal AI/ML projects. 
+					</li>
+				</ul>
+				</p>
 				<h4>University of Technology Sydney (UTS) | DevSecOps Intern</h4>
 				<!-- Metadata -->
-				<strong><em>January 2023 - Present</em></strong>
+				<strong><em>January 2023 - December 2023</em></strong>
 				<!-- Content -->
 				<p>
 				<ul>
@@ -88,11 +101,9 @@
 						Python, used Docker Compose to spin up containers of the Selenium Grid server to run the tests
 						and used GitHub Actions to automate the entire CI/CD workflow. This reduces two-thirds of the
 						runtime from the previous workflow.</li>
-					<li>Assist in integrating new tools into a CI pipeline, most notably researching the possibility of
-						using Resoto to visualise and warn spendings of AWS resources as dashboards to reduce costs of
-						using similar tools such as AWS Systems Manager Inventory.</li>
-					<li>Assist senior engineers and stakeholders with discovering and capturing business and technical
-						requirements</li>
+					<li>Developed automated test CI/CD workflows using Python and GitHub Actions to ensure existing test workflows can detect individual/all Route 53 records in a hosted zone, aligning with Test Driven Development (TDD) strategies for UTS ITU.</li>
+					<li>Implemented AWS Resource Scheduler to automate start and stop times of EC2 instances based on multiple schedules (i.e. business hours) to reduce additional management overhead costs.</li>
+					<li>Utilised Steampipe, an open-sourced asset management tool, to extract SQL queries of existing tag implementations in all AWS accounts in order to implement new tags to deploy the AWS Resource Scheduler.</li>
 				</ul>
 				</p>
 				<h4>Synergy Effects | Production Assistant</h4>
@@ -114,6 +125,19 @@
 				</p>
 
 				<h4 class="major">Volunteering Expeience</h4>
+				<h4>Japanese Australian Student Society (JASS) | Language Lessons Coordinator</h4>
+				<!-- Metadata -->
+				<strong><em>January 2022 - December 2022</em></strong>
+				<!-- Content -->
+				<p>
+				<ul>
+					<li>Created the syllabus for all classes for the entire year (Beginners – Advanced
+						classes, English for international/exchange students)</li>
+					<li>Promotion of language classes on the language classes' exclusive Facebook
+						group and the club's Discord, which led to a significant increase in attendance
+						to all classes compared to last year</li>
+				</ul>
+				</p>
 				<h4>UTS | UTS Orientation Navigators Program Mentor</h4>
 				<!-- Metadata -->
 				<strong><em>July 2022 - August 2022</em></strong>
@@ -141,19 +165,6 @@
 						progress/relationship with the offshore international student</li>
 				</ul>
 				</p>
-				<h4>Japanese Australian Student Society (JASS) | Language Lessons Coordinator</h4>
-				<!-- Metadata -->
-				<strong><em>January 2022 - December 2022</em></strong>
-				<!-- Content -->
-				<p>
-				<ul>
-					<li>Created the syllabus for all classes for the entire year (Beginners – Advanced
-						classes, English for international/exchange students)</li>
-					<li>Promotion of language classes on the language classes' exclusive Facebook
-						group and the club's Discord, which led to a significant increase in attendance
-						to all classes compared to last year</li>
-				</ul>
-				</p>
 				<h4>Softball NSW | Volunteer</h4>
 				<!-- Metadata -->
 				<strong><em>April 2022 - April 2022</em></strong>
@@ -170,6 +181,8 @@
 						Finals)</li>
 				</ul>
 				</p>
+				
+				
 
 			</article>
 			<!-- End of experience section -->
@@ -177,29 +190,30 @@
 			<!-- Start of projects section -->
 			<article id="projects">
 				<h2 class="major" style="color:#ffffff">Projects</h2>
-				<h4 class="major">Depth of Field (DOF) Camera Tool</h4>
+				<h4 class="major">Cloud Resume Challenge</h4>
 
 
-				<p>Camera Tool coded in Python via the Maya API that can add/disable a DOF rig to a camera and focus it
-					on a selected object. It can also create the camera, adjust its settings and apply a turntable
-					animation to a camera similar to (Visualise &gt; Create Turntable) settings in Maya. UI is coded in
-					the PySide2 GUI framework.</p>
-				<ul class="icons">
-					<li><a href="https://github.com/Jeffrey-Chung/Improved-Camera-Tool-Maya" class="icon solid fa-link"
-							target="_blank"><span class="label">Depth of Field (DOF) Camera Tool</span></a></li>
+				<ul>
+					<li>Frontend: S3, CloudFront, Route 53 (SSL Certificate management, creation of A records) - hosting the static site with custom domain</li>
+					<li>Backend: DynamoDB, Lambda - creation of API to connect between the database to static site</li>
+					<li>Misc: Setting up OIDC to create an IAM role for running CI/CD on GitHub Actions for easier authentication, setting up tfsec for code
+						quality, implementing state lock via a separate DynamoDB table to ensure only one deploy can happen each time</li>
+					<li>(Bonus): Setting up Docker and Docker-Compose to alternatively host the frontend via Apache or
+						Nginx servers</li>
+					<li>Created the CI/CD workflows with Terraform, Python and GitHub Actions</li>
 				</ul>
-				<h4 class="major">Three Point Lighting Tool</h4>
-
-
-				<p>Lighting Tool coded in Python via the Maya API that adds a three-point lighting setup to an object,
-					which includes a key light, fill light and back light. It can also add an L-shaped plane to the
-					scene to reflect the lighting and adjust the colour of the back light. It will raise a specialised
-					exception error if a back light is not selected to change colour. UI is coded in the PySide2 GUI
-					framework.</p>
 				<ul class="icons">
-					<li><a href="https://github.com/Jeffrey-Chung/Three-Point-Lighting-Tool-Maya"
-							class="icon solid fa-link" target="_blank"><span class="label">Three Point Lighting
-								Tool</span></a></li>
+					<li><a href="https://github.com/Jeffrey-Chung/cloud-resume-challenge-jeffrey-chung"
+							class="icon solid fa-link" target="_blank"><span class="label">Cloud Resume
+								Challenge</span></a></li>
+				</ul>
+				<h4 class="major">Basic WordPress Site Deployment</h4>
+
+
+				<p>Conducted various methods of deploying a basic setup of a WordPress site. One locally via Docker Compose and similarly with Terraform and GitHub Actions on an EC2 instance, using the already made compose file. Similar to the Cloud Resume Challenge, OIDC is setup to run on GitHub Actions and S3 state bucket is used as the backend.</p>
+				<ul class="icons">
+					<li><a href="https://github.com/Jeffrey-Chung/basic-wordpress-deployment"
+							class="icon solid fa-link" target="_blank"><span class="label">Basic WordPress Site Deployment</span></a></li>
 				</ul>
 				<h4 class="major">UI Test on UTS Website</h4>
 
@@ -229,23 +243,7 @@
 					<li><a href="https://k1ngslayer.itch.io/wistful-group-6" class="icon solid fa-link"
 							target="_blank"><span class="label">Wistful</span></a></li>
 				</ul>
-				<h4 class="major">Cloud Resume Challenge</h4>
-
-
-				<ul>
-					<li>Personal Attempt on the Cloud Resume Challenge</li>
-					<li>Highlights: Setting up OIDC for running CI/CD on GitHub Actions, setting up tfsec for code
-						quality, implementing state lock via DynamoDB to ensure one person can deploy at a time, setting
-						up S3 and CloudFront fully via Terraform</li>
-					<li>(Bonus): Setting up Docker and Docker-Compose to alternatively host the site via Apache and
-						Nginx servers</li>
-					<li>This site is used for this challenge</li>
-				</ul>
-				<ul class="icons">
-					<li><a href="https://github.com/Jeffrey-Chung/cloud-resume-challenge-jeffrey-chung"
-							class="icon solid fa-link" target="_blank"><span class="label">Cloud Resume
-								Challenge</span></a></li>
-				</ul>
+				
 
 			</article>
 			<!-- End of Projects section -->
@@ -255,7 +253,7 @@
 				<h2 class="major" style="color:#ffffff">About Me</h2>
 				Aspiring developer passionate about creating, testing and maintaining tools for pipeline development.
 				Related work experience in the Unity
-				Engine as a Production Assistant at Synergy Effects and using CI/CD and testing frameworks as a
+				Engine as a Production Assistant at Synergy Effects and using CI/CD and AWS as a
 				DevSecOps Intern at UTS.
 				<br>
 				<br>
@@ -278,9 +276,9 @@
 
 		<!-- Footer -->
 		<footer id="footer">
-			<p class="copyright">&copy; Jeffrey Chung 2023</br>
+			<p class="copyright">&copy; Jeffrey Chung 2024</br>
 				Built using: <a href="https://ezcv.readthedocs.io" target="_blank">ezcv</a><br>
-				Modified by: <a href="https://github.com/Jeffrey-Chung/personal_github_page" target="_blank">Jeffrey
+				Modified by: <a href="https://github.com/Jeffrey-Chung/cloud-resume-challenge-jeffrey-chung" target="_blank">Jeffrey
 					Chung</a><br>
 				<span style="font-size:8px">Design: <a href="https://html5up.net" target="_blank">HTML5 UP</a></span>
 			</p>
