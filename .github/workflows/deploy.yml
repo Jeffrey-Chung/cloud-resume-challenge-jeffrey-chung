@@ -27,10 +27,10 @@ permissions:
    contents: read
 
 jobs:
-  tf-aws-cloud-resume-challenge-build-frontend:
-    name: 'tf-aws-cloud-resume-challenge-build-frontend'
+  tf-aws-cloud-resume-challenge-build:
+    name: 'tf-aws-cloud-resume-challenge-build'
     runs-on: ubuntu-latest
-    if: inputs.structure_type == 'frontend' && inputs.action_type == 'build'
+    if: inputs.action_type == 'build'
     steps:
       - name: Check out this repository
         uses: actions/checkout@v3
@@ -66,71 +66,21 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -target=module.frontend
+        run: terraform plan -target=module.${{ inputs.structure_type }}
         continue-on-error: false
       
       - name: Terraform Apply
         id: apply
-        run: terraform apply -target=module.frontend -auto-approve
+        run: terraform apply -target=module.${{ inputs.structure_type }} -auto-approve
         continue-on-error: false
       
       - name: Run Unit Tests
-        run: python3 -m unittest tests/test_frontend.py
-  
-  tf-aws-cloud-resume-challenge-build-backend:
-    name: 'tf-aws-cloud-resume-challenge-build-backend'
-    runs-on: ubuntu-latest
-    if: inputs.structure_type == 'backend' && inputs.action_type == 'build'
-    steps:
-      - name: Check out this repository
-        uses: actions/checkout@v3
-      
-      - name: Set AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: ${{ env.IAM_ROLE }}
-          aws-region: ${{ env.AWS_REGION }}
-      
-      - uses: hashicorp/setup-terraform@v2
-      
-      - name: Setting up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11.2'
-      
-      - name: Install boto3
-        run: pip install --upgrade pip boto3
-      
-      - name: Terraform fmt
-        id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
-      
-      - name: Terraform init
-        id: init
-        run: terraform init
-      
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate
-      
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -target=module.backend
-        continue-on-error: false
-            
-      - name: Terraform Apply
-        id: apply
-        run: terraform apply -target=module.backend -auto-approve
-        continue-on-error: false
-      
-      - name: Run Unit Tests
-        run: python3 -m unittest tests/test_backend.py
+        run: python3 -m unittest tests/test_${{ inputs.structure_type }}.py
               
-  tf-aws-cloud-resume-challenge-destroy-frontend:
-    name: 'tf-aws-cloud-resume-challenge-destroy-frontend'
+  tf-aws-cloud-resume-challenge-destroy:
+    name: 'tf-aws-cloud-resume-challenge-destroy'
     runs-on: ubuntu-latest
-    if: inputs.structure_type == 'frontend' && inputs.action_type == 'destroy'
+    if: inputs.action_type == 'destroy'
     steps:
       - name: Check out this repository
         uses: actions/checkout@v3
@@ -149,40 +99,10 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -target=module.frontend
+        run: terraform plan -target=module.${{ inputs.structure_type }}
         continue-on-error: false
       
       - name: Terraform Destroy
         id: destroy
-        run: terraform destroy -target=module.frontend -auto-approve
-        continue-on-error: false
-
-  tf-aws-cloud-resume-challenge-destroy-backend:
-    name: 'tf-aws-cloud-resume-challenge-destroy-backend'
-    runs-on: ubuntu-latest
-    if: inputs.structure_type == 'backend' && inputs.action_type == 'destroy'
-    steps:
-      - name: Check out this repository
-        uses: actions/checkout@v3
-      
-      - name: Set AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: ${{ env.IAM_ROLE }}
-          aws-region: ${{ env.AWS_REGION }}
-      
-      - uses: hashicorp/setup-terraform@v2
-      
-      - name: Terraform init
-        id: init
-        run: terraform init
-      
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -target=module.backend
-        continue-on-error: false
-            
-      - name: Terraform Destroy
-        id: destroy
-        run: terraform destroy -target=module.backend -auto-approve
+        run: terraform destroy -target=module.${{ inputs.structure_type }} -auto-approve
         continue-on-error: false
