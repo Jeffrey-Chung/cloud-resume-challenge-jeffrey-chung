@@ -27,9 +27,33 @@ permissions:
    contents: read
 
 jobs:
+  changes:
+    name: 'changes'
+    runs-on: ubuntu-latest
+    if: inputs.action_type == 'build'
+    outputs:
+      has_static_website_changes: ${{ steps.changes.outputs.static_website }}
+    steps:
+    - name: Check out this repository
+      uses: actions/checkout@v3
+
+    - uses: dorny/paths-filter@v3
+      id: changes
+      with:
+        filters: |
+          static_website:
+            - 'index.html'
+            - 'error.html'
+            - 'css/*'
+            - 'images/*'
+            - 'js/*'
+            - 'sass/*'
+            - 'webfonts/*'
+          
   tf-aws-cloud-resume-challenge-build:
     name: 'tf-aws-cloud-resume-challenge-build'
     runs-on: ubuntu-latest
+    needs: changes
     if: inputs.action_type == 'build'
     steps:
       - name: Check out this repository
@@ -73,6 +97,10 @@ jobs:
         id: apply
         run: terraform apply -target=module.${{ inputs.structure_type }} -auto-approve
         continue-on-error: false
+
+      - name: Apply Static Website Changes
+        if: needs.changes.outputs.has_static_website_changes == 'true'
+        run: aws s3 sync . s3://tf-aws-jchung-cloud-resume-site-bucket --exclude "*" --include "css/*" --include "webfonts/*" --include "sass/*" --include "images/*" --include "js/*" --include "index.html" --include "error.html"
       
       - name: Run Unit Tests
         run: python3 -m unittest tests/test_${{ inputs.structure_type }}.py
